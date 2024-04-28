@@ -6,8 +6,6 @@ class Movimientos:
     tabla = "Movimientos"
 
 
-
-
     @staticmethod
     def create(descripcion: str) -> int:
         with Conexion() as db:
@@ -24,14 +22,14 @@ class Movimientos:
                 raise
 
     @staticmethod
-    def get(quest_id: int) -> ResponseMovimientos:
+    def get(quest_id: int) -> MovimientoSelectModel:
         with Conexion() as db:
             try:
                 query = f"SELECT * FROM {Movimientos.tabla} WHERE id = %s"
                 result = db.execute(query, (quest_id,))
                 if result:
                     row = result[0]
-                    return ResponseMovimientos(
+                    return MovimientoSelectModel(
                         id=row[0],
                         nombre_Movimientos=row[1],
                         descripcion=row[2],
@@ -70,14 +68,14 @@ class Movimientos:
                 raise
 
     @staticmethod
-    def get_all() -> List[ResponseMovimientos]:
+    def get_all() -> List[MovimientoSelectModel]:
         try:
             with Conexion() as db:
                 query = f"SELECT * FROM {Movimientos.tabla}"
                 result = db.execute(query)
                 rows = []
                 for row in result:
-                    rows.append(ResponseMovimientos(
+                    rows.append(MovimientoSelectModel(
                         id=row[0],
                         descripcion=row[1],
                         created_at=row[2],
