@@ -1,25 +1,18 @@
-from typing import List
-from pydantic import BaseModel
-from datetime import datetime
 from app.database.Conexion import Conexion
-
-class ResponseMovimientos(BaseModel):
-    id: int
-    descripcion: str
-    created_at: datetime
-    updated_at: datetime
-
+from app.schemas.SchemaMovimiento import MovimientoSelectModel,MovimientoCreateModel
 from typing import List
-from datetime import datetime
 
 class Movimientos:
     tabla = "Movimientos"
+
+
+
 
     @staticmethod
     def create(descripcion: str) -> int:
         with Conexion() as db:
             try:
-                query = (f"INSERT INTO {Movimientos.tabla} (descripcion, created_at, updated_at) VALUES "
+                query = (f"INSERT INTO {Movimientos.tabla} (id_concepto, id_secuencia, valor) VALUES "
                          f"(%s, NOW(), NOW()) RETURNING id")
                 result = db.execute(query, (descripcion))
                 if result:

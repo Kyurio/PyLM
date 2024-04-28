@@ -21,7 +21,9 @@
     <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/PostUsuario.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app/database/Conexion.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app/model/Auth.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/app/model/Concatenados.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Conceptos.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/model/Historial.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Movimineto.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Parametros.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/PlanMovimiento.py" root0="FORCE_HIGHLIGHTING" />
@@ -133,10 +135,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app/model/Historial.py</url>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/router/RouterParametro.py</url>
           <option name="timeStamp" value="3" />

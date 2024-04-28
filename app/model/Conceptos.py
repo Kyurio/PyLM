@@ -19,6 +19,7 @@ class Conceptos:
             except Exception as e:
                 print(f"Error al crear Conceptos: {e}")
                 raise
+
     @staticmethod
     def get(quest_id: int) -> ConceptoSelectModel:
         with Conexion() as db:
@@ -40,6 +41,7 @@ class Conceptos:
             except Exception as e:
                 print(f"Error al obtener Conceptos: {e}")
                 raise
+
     @staticmethod
     def update(id: int, descripcion: str) -> bool:
         with Conexion() as db:
@@ -51,6 +53,7 @@ class Conceptos:
             except Exception as e:
                 print(f"Error al actualizar Conceptos: {e}")
                 raise
+
     @staticmethod
     def delete(quest_id: int) -> bool:
         with Conexion() as db:
@@ -62,6 +65,7 @@ class Conceptos:
             except Exception as e:
                 print(f"Error al eliminar Conceptos: {e}")
                 raise
+
     @staticmethod
     def get_all() -> List[ConceptoSelectModel]:
         try:
