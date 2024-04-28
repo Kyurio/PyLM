@@ -11,7 +11,7 @@ class Movimientos:
         with Conexion() as db:
             try:
                 query = (f"INSERT INTO {Movimientos.tabla} (id_concepto, id_secuencia, valor) VALUES "
-                         f"(%s, NOW(), NOW()) RETURNING id")
+                         f"(%s, %s, %s) RETURNING id")
                 result = db.execute(query, (descripcion))
                 if result:
                     return result[0][0]  # Devuelve el ID del Movimientos creado
@@ -44,11 +44,11 @@ class Movimientos:
                 raise
 
     @staticmethod
-    def update(id: int, descripcion: str) -> bool:
+    def update(id_concepto: int, id_secuencia: int, valor: int, descripcion: str) -> bool:
         with Conexion() as db:
             try:
                 query = f"UPDATE {Movimientos.tabla} SET descripcion = %s, updated_at = NOW() WHERE id = %s"
-                db.execute(query, (descripcion, quest_id))
+                db.execute(query, (id, descripcion))
                 db.connection.commit()
                 return True
             except Exception as e:

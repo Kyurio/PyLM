@@ -19,6 +19,7 @@ class Perfil:
             except Exception as e:
                 print(f"Error al crear perfil: {e}")
                 raise
+
     @staticmethod
     def get(quest_id: int) -> PerfilSelectModel:
         with Conexion() as db:
@@ -40,6 +41,7 @@ class Perfil:
             except Exception as e:
                 print(f"Error al obtener perfil: {e}")
                 raise
+
     @staticmethod
     def update(quest_id: int, nombre_perfil: str, descripcion: str, estado: bool) -> bool:
         with Conexion() as db:
@@ -51,6 +53,7 @@ class Perfil:
             except Exception as e:
                 print(f"Error al actualizar perfil: {e}")
                 raise
+
     @staticmethod
     def delete(quest_id: int) -> bool:
         with Conexion() as db:
@@ -62,6 +65,7 @@ class Perfil:
             except Exception as e:
                 print(f"Error al eliminar perfil: {e}")
                 raise
+
     @staticmethod
     def get_all() -> List[PerfilSelectModel]:
         try:

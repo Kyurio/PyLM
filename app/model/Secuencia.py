@@ -1,16 +1,7 @@
-from typing import List
-from pydantic import BaseModel
-from datetime import datetime
 from app.database.Conexion import Conexion
-
-class ResponseSecuencia(BaseModel):
-    id: int
-    descripcion: str
-    created_at: datetime
-    updated_at: datetime
-
+from app.schemas.SchemaSecuencia import MovimientoCreateModel,MovimientoSelectModel
 from typing import List
-from datetime import datetime
+
 
 class Secuencia:
     tabla = "secuencia"
