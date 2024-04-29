@@ -6,6 +6,7 @@ from typing import List
 # Crear el router
 router = APIRouter()
 
+
 # Definir el modelo de datos para la creación de perfiles
 class HistorialRequest(BaseModel):
     id: int
@@ -21,6 +22,7 @@ def ListadoHistorial():
     historial = Historial()
     response = historial.get_all()
     return response
+
 
 # Agregar el router a la aplicación FastAPI
 app = FastAPI()
