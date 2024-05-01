@@ -4,11 +4,14 @@ from app.schemas.SchemaSecuencia import SecuenciaSelectModel
 from typing import List
 
 router = APIRouter()
-@router.get("/GetConcepto/", response_model=List[SecuenciaSelectModel])
-def listar_conceptos():
+
+@router.get("/GetSecuencia/", response_model=List[SecuenciaSelectModel])
+def listar_secuencia():
     try:
+
         concepto = Secuencia.get_all()
         return concepto
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener los Conceptos: {str(e)}")
 

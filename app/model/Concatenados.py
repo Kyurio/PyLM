@@ -11,13 +11,15 @@ class Concatenados:
     def create(descripcion: str) -> int:
         with Conexion() as db:
             try:
+
                 query = (f"INSERT INTO {Concatenados.tabla} (descripcion, created_at, updated_at) VALUES "
                          f"(%s, NOW(), NOW()) RETURNING id")
                 result = db.execute(query, (descripcion))
                 if result:
-                    return result[0][0]  # Devuelve el ID del Concatenados creado
+                    return True
                 else:
-                    return None
+                    return False
+
             except Exception as e:
                 print(f"Error al crear Concatenados: {e}")
                 raise

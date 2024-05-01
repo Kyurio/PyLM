@@ -13,11 +13,10 @@ class PlanMovimiento:
                          f"(%s, NOW(), NOW()) RETURNING id")
                 result = db.execute(query, (descripcion))
                 if result:
-                    return result[0][0]  # Devuelve el ID del PlanMovimiento creado
+                    return True
                 else:
-                    return None
+                    return False
             except Exception as e:
-                print(f"Error al crear PlanMovimiento: {e}")
                 raise
 
     @staticmethod
@@ -37,9 +36,8 @@ class PlanMovimiento:
                         updated_at=row[5]
                     )
                 else:
-                    return None
+                    return False
             except Exception as e:
-                print(f"Error al obtener PlanMovimiento: {e}")
                 raise
 
     @staticmethod
@@ -51,7 +49,6 @@ class PlanMovimiento:
                 db.connection.commit()
                 return True
             except Exception as e:
-                print(f"Error al actualizar PlanMovimiento: {e}")
                 raise
 
     @staticmethod
@@ -63,7 +60,6 @@ class PlanMovimiento:
                 db.connection.commit()
                 return True
             except Exception as e:
-                print(f"Error al eliminar PlanMovimiento: {e}")
                 raise
 
     @staticmethod
@@ -82,5 +78,4 @@ class PlanMovimiento:
                     ))
                 return rows
         except Exception as e:
-            print(f"Error al obtener todos los PlanMovimientoes: {e}")
             raise

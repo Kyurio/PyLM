@@ -7,8 +7,10 @@ router = APIRouter()
 @router.get("/GetParametros/", response_model=List[ParametroSelectModel])
 def listar_parametros():
     try:
+
         request = Parametros.get_all()
         return request
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener los Conceptos: {str(e)}")
 

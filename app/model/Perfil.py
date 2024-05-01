@@ -10,33 +10,16 @@ class Perfil:
     def create(nombre_perfil: str, descripcion: str, estado: bool) -> int:
         with Conexion() as db:
             try:
+
                 query = (f"INSERT INTO {Perfil.tabla} (nombre_perfil, descripcion, estado, created_at, updated_at) VALUES "
                          f"(%s, %s, %s, NOW(), NOW()) RETURNING id")
                 result = db.execute(query, (nombre_perfil, descripcion, estado))
-                print("Result:", result)  # Agrega esta línea para depurar
-                if result:
-                    # Retornar 200 si el insert fue exitoso
-                    return {"status": "Success"}
-                else:
-                    # Si result está vacío, el insert no tuvo éxito
-                    raise HTTPException(status_code=500, detail="Error al crear el perfil")
 
-            except Exception as e:
-                print(f"Error al crear perfil: {e}")
-                raise
-
-    @staticmethod
-    def create(nombre_perfil: str, descripcion: str, estado: bool) -> int:
-        with Conexion() as db:
-            try:
-                query = (
-                    f"INSERT INTO {Perfil.tabla} (nombre_perfil, descripcion, estado, created_at, updated_at) VALUES "
-                    f"(%s, %s, %s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (nombre_perfil, descripcion, estado))
                 if result:
-                    return result[0][0]
+                    return True
                 else:
-                    return None
+                    return False
+
             except Exception as e:
                 print(f"Error al crear perfil: {e}")
                 raise

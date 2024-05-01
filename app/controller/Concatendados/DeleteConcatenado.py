@@ -2,10 +2,10 @@ from fastapi import APIRouter, HTTPException
 from app.model.Concatenados import Concatenados
 
 router = APIRouter()
-@router.delete("/DeleteConcatenado/{concatenado_id}")
-def eliminar_concatenado(concatenado_id: int):
+@router.delete("/DeleteConcatenado/{id}")
+def eliminar_concatenado(id: int):
     try:
-        success = Concatenados.delete(concatenado_id)
+        success = Concatenados.delete(id)
         if success:
             return {"message": "Conceptos eliminado exitosamente"}
         else:

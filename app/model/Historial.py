@@ -13,9 +13,10 @@ class Historial:
                          f"(%s, %s, %s, NOW()) RETURNING id")
                 result = db.execute(query, (id_usuario, tabla_afectada, accion, fecha_hora))
                 if result:
-                    return result[0][0]  # Devuelve el ID del Historial creado
+                    return True
                 else:
                     return None
+
             except Exception as e:
                 print(f"Error al crear Historial: {e}")
                 raise
@@ -36,6 +37,7 @@ class Historial:
                         fecha_hora=row[4]
                     ))
                 return rows
+
         except Exception as e:
             print(f"Error al obtener todos los Historiales: {e}")
             raise

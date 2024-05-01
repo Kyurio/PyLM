@@ -21,20 +21,33 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/app/controller/Concatendados/DeleteConcatenado.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Concatendados/GetConcatenado.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Concatendados/PostConcatenado.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Concatendados/UpdateConcatenado.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Concepto/DeleteConcepto.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Concepto/GetConcepto.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Concepto/PostConcepto.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Concepto/UpdateConcepto.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Historial/GetHistorial.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Movimiento/DeleteMovimiento.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Movimiento/GetMovimiento.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Movimiento/PostMovimiento.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Movimiento/UpdateMovimiento.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Perfiles/DeletePerfil.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Perfiles/GetPerfiles.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Perfiles/PostPerfil.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Perfiles/UpdatePerfil.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Secuencia/DeleteSecuencia.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Secuencia/GetSecuencia.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Secuencia/PostSecuencia.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Secuencia/UpdateSecuencia.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/GetUsuarios.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/PostUsuario.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/DeleteUsuario.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/GetUsuarios.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/PostUsuario.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/UpdateUsuarios.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/database/Conexion.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/app/model/Auth.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/app/model/Auth.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Concatenados.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Conceptos.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Historial.py" root0="FORCE_HIGHLIGHTING" />
@@ -43,7 +56,7 @@
     <setting file="file://$PROJECT_DIR$/app/model/Perfil.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/PlanMovimiento.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Secuencia.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/model/Usuario.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/app/model/Usuario.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/schemas/SchemaMovimiento.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/schemas/SchemaPerfil.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/index.py" root0="FORCE_HIGHLIGHTING" />

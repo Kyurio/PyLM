@@ -3,6 +3,7 @@ from app.schemas.SchemaUsuario import UsuarioCreateModel,UsuarioSelectModel
 from typing import List
 class Usuarios:
     tabla = "usuario"
+
     @staticmethod
     def create(usuario: str, nombre: str, password: str, correo: str, estado: bool) -> int:
         with Conexion() as db:
@@ -11,12 +12,14 @@ class Usuarios:
                          f"(%s, %s, %s, %s, %s, NOW(), NOW()) RETURNING id")
                 result = db.execute(query, (usuario, nombre, password, correo, estado))
                 if result:
-                    return result[0][0]
+                    return True
                 else:
-                    return None
+                    return False
+
             except Exception as e:
                 print(f"Error al crear usuario: {e}")
                 raise
+
     @staticmethod
     def get(quest_id: int) -> UsuarioSelectModel:
         with Conexion() as db:
@@ -40,6 +43,7 @@ class Usuarios:
             except Exception as e:
                 print(f"Error al obtener usuario: {e}")
                 raise
+
     @staticmethod
     def update(quest_id: int, usuario: str, nombre: str, password: str, correo: str, estado: bool) -> bool:
         with Conexion() as db:
@@ -51,6 +55,7 @@ class Usuarios:
             except Exception as e:
                 print(f"Error al actualizar usuario: {e}")
                 raise
+
     @staticmethod
     def delete(quest_id: int) -> bool:
         with Conexion() as db:
@@ -62,6 +67,7 @@ class Usuarios:
             except Exception as e:
                 print(f"Error al eliminar usuario: {e}")
                 raise
+
     @staticmethod
     def get_all() -> List[UsuarioSelectModel]:
         try:

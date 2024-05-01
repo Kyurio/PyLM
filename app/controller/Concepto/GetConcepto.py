@@ -4,6 +4,7 @@ from app.schemas.SchemaConcepto import ConceptoSelectModel
 from typing import List
 
 router = APIRouter()
+
 @router.get("/GetConcepto/", response_model=List[ConceptoSelectModel])
 def listar_conceptos():
     try:

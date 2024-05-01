@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.model.Parametros import Parametros
+from app.model.PlanMovimiento import PlanMovimiento
 from app.schemas.SchemaParametro import ParametroCreateModel
 
 router = APIRouter()
@@ -8,7 +8,7 @@ router = APIRouter()
 def actualizar_plan_movimiento(request: ParametroCreateModel):
     try:
         response = request.dict()
-        success = Parametros.update(**response)
+        success = PlanMovimiento.update(**response)
         if success:
             return {"message": "Perfil actualizado exitosamente"}
         else:
