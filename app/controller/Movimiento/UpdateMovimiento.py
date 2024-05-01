@@ -3,8 +3,8 @@ from app.model.Movimineto import Movimientos
 from app.schemas.SchemaMovimiento import MovimientoCreateModel
 
 router = APIRouter()
-@router.put("/UpdateConcatenado/")
-def actualizar_concatendado(request: MovimientoCreateModel):
+@router.put("/UpdateMovimiento/")
+def actualizar_movimineto(request: MovimientoCreateModel):
     try:
         conceptos_data = request.dict()
         success = Movimientos.update(**conceptos_data)

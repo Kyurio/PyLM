@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException
-from app.model.Conceptos import Conceptos
-from app.schemas.SchemaConcepto import ConceptoCreateModel
+from app.model.Secuencia import Secuencia
+from app.schemas.SchemaSecuencia import SecuenciaCreateModel
 
 router = APIRouter()
 @router.put("/UpdateConceptos/")
-def actualizar_usuario(conceptos_request: ConceptoCreateModel):
+def actualizar_secuencia(request: SecuenciaCreateModel):
     try:
-        conceptos_data = conceptos_request.dict()
-        success = Conceptos.update(**conceptos_data)
+        data = request.dict()
+        success = Secuencia.update(**data)
         if success:
             return {"message": "Perfil actualizado exitosamente"}
         else:

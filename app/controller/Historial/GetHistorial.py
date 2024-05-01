@@ -1,21 +1,10 @@
 from fastapi import FastAPI, HTTPException, APIRouter
 from app.model.Historial import Historial
-from pydantic import BaseModel
-from datetime import datetime
+from app.schemas.SchemaHistorial import HistorialSelectModel
 from typing import List
-# Crear el router
 router = APIRouter()
 
-# Definir el modelo de datos para la creación de perfiles
-class HistorialRequest(BaseModel):
-    id: int
-    id_usuario: int
-    tabla_afectada: str
-    accion: str
-    fecha_hora: str
-
-
-@router.get("/Historial/", response_model=List[HistorialRequest])
+@router.get("/Historial/", response_model=List[HistorialSelectModel])
 def ListadoHistorial():
 
     historial = Historial()

@@ -4,6 +4,7 @@ from app.schemas.SchemaConcatenado import ConcatenadoCreateModel, ConcatenadoSel
 from typing import List
 
 class Concatenados:
+
     tabla = "Concatenados"
 
     @staticmethod

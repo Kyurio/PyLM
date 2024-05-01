@@ -4,7 +4,7 @@ from app.schemas.SchemaConcepto import ConceptoCreateModel
 
 router = APIRouter()
 @router.put("/UpdateConceptos/")
-def actualizar_usuario(conceptos_request: ConceptoCreateModel):
+def actualizar_concepto(conceptos_request: ConceptoCreateModel):
     try:
         conceptos_data = conceptos_request.dict()
         success = Conceptos.update(**conceptos_data)

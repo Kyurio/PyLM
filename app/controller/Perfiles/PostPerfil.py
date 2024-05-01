@@ -8,7 +8,10 @@ router = APIRouter()
 def crear_perfil(perfil_request: PerfilCreateModel):
     try:
         perfil_data = perfil_request.dict()
-        perfil_id = Perfil.create(**perfil_data)
-        return {"perfil_id": perfil_id}
+        response = Perfil.create(**perfil_data)
+        if response is not None:  # Verifica si la respuesta no es None
+            return {"status": "Success"}, 200
+        else:  # Si la respuesta es None, significa que el insert falló
+            raise HTTPException(status_code=500, detail="Error al crear el perfil")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al crear el perfil: {str(e)}")
