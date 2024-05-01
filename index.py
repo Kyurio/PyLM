@@ -10,7 +10,7 @@ from router import RouterConcatenado
 from router import RouterMovimiento
 from router import RouterParametro
 from router import RouterPlanMovimiento
-
+from router import RouterHistorial
 
 app = FastAPI()
 
@@ -64,6 +64,10 @@ app.include_router(RouterPlanMovimiento.PostPlanMovimiento.router)
 app.include_router(RouterPlanMovimiento.GetPlanMovimiento.router)
 app.include_router(RouterPlanMovimiento.DeletePlanMovimineto.router)
 app.include_router(RouterPlanMovimiento.UpdatePlanMovimiento.router)
+
+# router historial
+app.include_router(RouterHistorial.GetHistorial.router)
+app.include_router(RouterHistorial.PostHistorial.router)
 
 # router auth
 app.include_router(RouterAuth.Login.router)

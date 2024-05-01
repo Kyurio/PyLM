@@ -3,6 +3,8 @@ from app.model.Movimineto import Movimientos
 from app.schemas.SchemaConcatenado import ConcatenadoCreateModel
 
 router = APIRouter()
+
+
 @router.post("/PostMovimineto/")
 def crear_movimiento(request: ConcatenadoCreateModel):
     try:
