@@ -13,7 +13,7 @@ class Parametros:
                          f"(%s, NOW(), NOW()) RETURNING id")
                 result = db.execute(query, (descripcion))
                 if result:
-                    return result[0][0]  # Devuelve el ID del Parametros creado
+                    return True
                 else:
                     return None
             except Exception as e:

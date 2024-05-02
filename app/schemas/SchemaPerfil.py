@@ -8,7 +8,7 @@ class PerfilCreateModel(BaseModel):
 
 class PerfilSelectModel(BaseModel):
     id: int
-    id_perfil: int
+    nombre_perfil: str
     descripcion: str
     estado: bool
     created_at: datetime

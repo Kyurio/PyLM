@@ -14,7 +14,7 @@ class Movimientos:
                          f"(%s, %s, %s) RETURNING id")
                 result = db.execute(query, (descripcion))
                 if result:
-                    return result[0][0]  # Devuelve el ID del Movimientos creado
+                    return True
                 else:
                     return None
             except Exception as e:

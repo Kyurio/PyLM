@@ -4,18 +4,21 @@ from typing import List
 
 class Conceptos:
     tabla = "conceptos"
+
     @staticmethod
     def create(nombre: str) -> int:
 
         with Conexion() as db:
             try:
+
                 query = (f"INSERT INTO {Conceptos.tabla} (nombre, created_at, updated_at) VALUES "
                          f"(%s, NOW(), NOW()) RETURNING id")
                 result = db.execute(query, (nombre))
                 if result:
-                    return result[0][0]
+                    return True
                 else:
-                    return None
+                    return False
+
             except Exception as e:
                 print(f"Error al crear Conceptos: {e}")
                 raise
@@ -37,7 +40,8 @@ class Conceptos:
                         updated_at=row[5]
                     )
                 else:
-                    return None
+                    return False
+
             except Exception as e:
                 print(f"Error al obtener Conceptos: {e}")
                 raise
@@ -70,6 +74,7 @@ class Conceptos:
     def get_all() -> List[ConceptoSelectModel]:
         try:
             with Conexion() as db:
+
                 query = f"SELECT * FROM {Conceptos.tabla}"
                 result = db.execute(query)
                 rows = []
@@ -81,6 +86,7 @@ class Conceptos:
                         updated_at=row[3]
                     ))
                 return rows
+
         except Exception as e:
             print(f"Error al obtener todos los Conceptoses: {e}")
             raise
