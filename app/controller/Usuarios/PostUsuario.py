@@ -13,4 +13,4 @@ def crear_usuario(request: UsuarioCreateModel):
         return {"perfil_id": usuarios}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al crear el perfil: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al crear Usuario: {str(e)}")

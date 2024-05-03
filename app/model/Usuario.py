@@ -5,12 +5,12 @@ class Usuarios:
     tabla = "usuario"
 
     @staticmethod
-    def create(usuario: str, nombre: str, password: str, correo: str, estado: bool) -> int:
+    def create(id_perfil: int, usuario: str, password: str, correo: str, estado: bool) -> int:
         with Conexion() as db:
             try:
-                query = (f"INSERT INTO {Usuarios.tabla} (id_perfil, nombre, password, correo, estado, created_at, updated_at) VALUES "
-                         f"(%s, %s, %s, %s, %s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (usuario, nombre, password, correo, estado))
+                query = (f"INSERT INTO {Usuarios.tabla} (id_perfil, usuario, password, correo, estado) VALUES "
+                         f"(%s, %s, %s, %s, %s) RETURNING id")
+                result = db.execute(query, (id_perfil, usuario, password, correo, estado))
                 if result:
                     return True
                 else:
