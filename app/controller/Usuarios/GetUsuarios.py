@@ -10,5 +10,5 @@ def listar_usuarios():
         user = Usuarios.get_all()
         return user
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener los perfiles: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al obtener los Usuarios: {str(e)}")
 

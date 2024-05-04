@@ -63,7 +63,7 @@
     <setting file="file://$PROJECT_DIR$/router/RouterConcatenado.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -102,11 +102,6 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="QodanaReportsService">
-    <option name="descriptions">
-      <ReportDescription localRun="true" path="C:\Users\famil\AppData\Local\Temp\qodana_output\qodana.sarif.json" reportGuid="d3baa3e9-b3f3-4ec4-9a72-ccbd3450d026" reportId="LmPy/qodana/2024-04-28" />
-    </option>
-  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\python\LmPy\app\controller\PlanMovimiento" />
@@ -167,7 +162,8 @@
       <workItem from="1714434455351" duration="2408000" />
       <workItem from="1714449805368" duration="59000" />
       <workItem from="1714606493949" duration="5114000" />
-      <workItem from="1714716326070" duration="1393000" />
+      <workItem from="1714716326070" duration="8921000" />
+      <workItem from="1714784342239" duration="3572000" />
     </task>
     <servers />
   </component>
@@ -191,5 +187,8 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PyLM$Usuario.coverage" NAME="Usuario Coverage Results" MODIFIED="1714707863695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/model" />
   </component>
 </project>

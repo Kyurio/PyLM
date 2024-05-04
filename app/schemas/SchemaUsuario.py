@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from datetime import datetime
-
 
 class UsuarioCreateModel(BaseModel):
     id_perfil: int
@@ -12,6 +10,8 @@ class UsuarioCreateModel(BaseModel):
 
 class UsuarioSelectModel(BaseModel):
     id: int
-    nombre: str
-    created_at: datetime
-    updated_at: datetime
+    id_perfil: int
+    usuario: str
+    password: str
+    correo: str
+    estado: bool

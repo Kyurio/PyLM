@@ -1,6 +1,8 @@
 from app.database.Conexion import Conexion
-from app.schemas.SchemaUsuario import UsuarioCreateModel,UsuarioSelectModel
+from app.schemas.SchemaUsuario import UsuarioCreateModel, UsuarioSelectModel
 from typing import List
+
+
 class Usuarios:
     tabla = "usuario"
 
@@ -28,15 +30,14 @@ class Usuarios:
                 result = db.execute(query, (quest_id,))
                 if result:
                     row = result[0]
-                    return ResponseUsuarios(
+                    return UsuarioSelectModel(
                         id=row[0],
-                        usuario=row[1],
-                        nombre=row[2],
+                        id_perfil=row[1],
+                        usuario=row[2],
                         password=row[3],
                         correo=row[4],
                         estado=row[5],
-                        created_at=row[6],
-                        updated_at=row[7]
+
                     )
                 else:
                     return None
@@ -45,11 +46,11 @@ class Usuarios:
                 raise
 
     @staticmethod
-    def update(quest_id: int, usuario: str, nombre: str, password: str, correo: str, estado: bool) -> bool:
+    def update(quest_id: int, id_perfil, usuario: str, password: str, correo: str, estado: bool) -> bool:
         with Conexion() as db:
             try:
-                query = f"UPDATE {Usuarios.tabla} SET usuario = %s, nombre = %s, password = %s, correo = %s, estado = %s, updated_at = NOW() WHERE id = %s"
-                db.execute(query, (usuario, nombre, password, correo, estado, quest_id))
+                query = f"UPDATE {Usuarios.tabla} SET id_perfil = %s, usuario = %s, password = %s, correo = %s, estado = %s, updated_at = NOW() WHERE id = %s"
+                db.execute(query, (id_perfil, usuario, password, correo, estado, quest_id))
                 db.connection.commit()
                 return True
             except Exception as e:
@@ -77,15 +78,13 @@ class Usuarios:
                 result = db.execute(query)
                 rows = []
                 for row in result:
-                    rows.append(ResponseUsuarios(
+                    rows.append(UsuarioSelectModel(
                         id=row[0],
-                        usuario=row[1],
-                        nombre=row[2],
+                        id_perfil=row[1],
+                        usuario=row[2],
                         password=row[3],
                         correo=row[4],
                         estado=row[5],
-                        created_at=row[6],
-                        updated_at=row[7]
                     ))
                 return rows
         except Exception as e:
