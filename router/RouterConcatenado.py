@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.controller.Concatendados import UpdateConcatenado,GetConcatenado,DeleteConcatenado,PostConcatenado
+from app.controller.Concatendados import UpdateConcatenado, GetConcatenado, DeleteConcatenado, PostConcatenado
 from app.schemas.SchemaConcepto import ConceptoCreateModel, ConceptoSelectModel
 from typing import List
 

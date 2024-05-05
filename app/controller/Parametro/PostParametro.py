@@ -4,12 +4,12 @@ from app.schemas.SchemaParametro import ParametroSelectModel
 
 router = APIRouter()
 @router.post("/PostParametro")
-def crear_parametros(request: ParametroSelectModel):
+def crear_parametros(data: ParametroSelectModel):
     try:
 
-        concatenado = request.dict()
-        response = Parametros.create(**concatenado)
-        return {"parametro_id": response}
+        request = data.dict()
+        response = Parametros.create(request)
+        return response
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al crear el perfil: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al crear el seccuencia: {str(e)}")

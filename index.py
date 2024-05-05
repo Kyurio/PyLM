@@ -11,6 +11,7 @@ from router import RouterMovimiento
 from router import RouterParametro
 from router import RouterPlanMovimiento
 from router import RouterHistorial
+from router import RouterSecuencia
 
 app = FastAPI()
 
@@ -22,6 +23,12 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
+
+# router secuencia
+app.include_router(RouterSecuencia.GetSecuencia.router)
+app.include_router(RouterSecuencia.DeleteSecuencia.router)
+app.include_router(RouterSecuencia.UpdateSecuencia.router)
+app.include_router(RouterSecuencia.PostSecuencia.router)
 
 # router perfil
 app.include_router(RouterPerfil.PostPerfil.router)

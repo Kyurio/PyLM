@@ -5,12 +5,12 @@ from app.schemas.SchemaSecuencia import SecuenciaCreateModel
 router = APIRouter()
 
 @router.post("/PostSecuencia/")
-def crear_secuencia(request: SecuenciaCreateModel):
+def crear_secuencia(data: SecuenciaCreateModel):
     try:
 
-        ususario_data = request.dict()
-        concpeto = Secuencia.create(**ususario_data)
-        return {"concepto_id": concpeto}
+        request = data.dict()
+        response = Secuencia.create(request)
+        return response
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al crear el perfil: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al crear el seccuencia: {str(e)}")

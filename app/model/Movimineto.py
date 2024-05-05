@@ -12,7 +12,7 @@ class Movimientos:
             try:
                 query = (f"INSERT INTO {Movimientos.tabla} (id_concepto, id_secuencia, valor) VALUES "
                          f"(%s, %s, %s) RETURNING id")
-                result = db.execute(query, (descripcion))
+                result = db.execute(query, (descripcion,))
                 if result:
                     return True
                 else:

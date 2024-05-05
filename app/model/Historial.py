@@ -11,7 +11,7 @@ class Historial:
             try:
                 query = (f"INSERT INTO {Historial.tabla} (id_usuario, table_afectada, accion, fecha_hora) VALUES "
                          f"(%s, %s, %s, NOW()) RETURNING id")
-                result = db.execute(query, (id_usuario, tabla_afectada, accion, fecha_hora))
+                result = db.execute(query, (id_usuario, tabla_afectada, accion, fecha_hora,))
                 if result:
                     return True
                 else:

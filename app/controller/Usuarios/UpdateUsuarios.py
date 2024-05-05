@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from app.model.Usuario import Usuarios
-from app.schemas.SchemaUsuario import UsuarioCreateModel
+from app.schemas.SchemaUsuario import UsuarioResponseModel
 
 router = APIRouter()
 
 @router.put("/UpdateUsuario/")
-def actualizar_usuario(request: UsuarioCreateModel):
+def actualizar_usuario(request: UsuarioResponseModel):
     try:
 
         usuario_data = request.dict()

@@ -10,3 +10,5 @@ class ConcatenadoSelectModel(BaseModel):
 class ConcatenadoCreateModel(BaseModel):
     id_plan_movimiento: int
     descripcion: str
+
+

@@ -6,25 +6,25 @@ class PlanMovimiento:
     tabla = "PlanMovimiento"
 
     @staticmethod
-    def create(descripcion: str) -> int:
-        with Conexion() as db:
-            try:
-                query = (f"INSERT INTO {PlanMovimiento.tabla} (descripcion, created_at, updated_at) VALUES "
-                         f"(%s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (descripcion))
-                if result:
-                    return True
-                else:
-                    return False
-            except Exception as e:
-                raise
+    def create(data: dict) -> bool:
+        try:
+            with Conexion() as db:
+                columns = ', '.join(data.keys())
+                placeholders = ', '.join(['%s'] * len(data))
+                values = list(data.values())
+                query = f"INSERT INTO {PlanMovimiento.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
+                db.execute(query, values)
+                return True
+        except Exception as e:
+            print(f"Error al crear usuario: {e}")
+            return False
 
     @staticmethod
-    def get(quest_id: int) -> PlanMovimientoSelectModel:
+    def get(id: int) -> PlanMovimientoSelectModel:
         with Conexion() as db:
             try:
                 query = f"SELECT * FROM {PlanMovimiento.tabla} WHERE id = %s"
-                result = db.execute(query, (quest_id,))
+                result = db.execute(query, (id,))
                 if result:
                     row = result[0]
                     return PlanMovimientoSelectModel(

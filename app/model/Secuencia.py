@@ -2,33 +2,34 @@ from app.database.Conexion import Conexion
 from app.schemas.SchemaSecuencia import SecuenciaCreateModel, SecuenciaSelectModel
 from typing import List
 
-
 class Secuencia:
-
     tabla = "secuencia"
 
     @staticmethod
-    def create(descripcion: str) -> int:
+    def create(data: dict) -> bool:
+        print("entro al create")
         with Conexion() as db:
             try:
-                query = (f"INSERT INTO {Secuencia.tabla} (descripcion, created_at, updated_at) VALUES "
-                         f"(%s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (descripcion))
-                if result:
-                    return True
-                else:
-                    return False
+                with Conexion() as db:
 
+                    columns = ', '.join(data.keys())
+                    placeholders = ', '.join(['%s'] * len(data))
+                    values = list(data.values())
+                    query = f"INSERT INTO {Secuencia.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
+                    print(query)
+                    db.execute(query, values)
+                    return True
             except Exception as e:
-                raise
+                print(f"Error al crear usuario: {e}")
+                return False
 
     @staticmethod
-    def get(quest_id: int) -> SecuenciaSelectModel:
+    def get(id: int) -> SecuenciaSelectModel:
         with Conexion() as db:
             try:
 
                 query = f"SELECT * FROM {Secuencia.tabla} WHERE id = %s"
-                result = db.execute(query, (quest_id,))
+                result = db.execute(query, (id,))
                 if result:
                     row = result[0]
                     return SecuenciaSelectModel(
@@ -51,7 +52,7 @@ class Secuencia:
             try:
 
                 query = f"UPDATE {Secuencia.tabla} SET descripcion = %s, updated_at = NOW() WHERE id = %s"
-                db.execute(query, (descripcion, quest_id))
+                db.execute(query, (descripcion, id,))
                 db.connection.commit()
                 return True
 

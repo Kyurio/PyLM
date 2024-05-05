@@ -6,6 +6,7 @@ from typing import List
 class Perfil:
 
     tabla = "perfil"
+
     @staticmethod
     def create(nombre_perfil: str, descripcion: str, estado: bool) -> int:
         with Conexion() as db:
@@ -13,7 +14,7 @@ class Perfil:
 
                 query = (f"INSERT INTO {Perfil.tabla} (nombre_perfil, descripcion, estado, created_at, updated_at) VALUES "
                          f"(%s, %s, %s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (nombre_perfil, descripcion, estado))
+                result = db.execute(query, (nombre_perfil, descripcion, estado,))
 
                 if result:
                     return True
@@ -25,11 +26,11 @@ class Perfil:
                 raise
 
     @staticmethod
-    def get(quest_id: int) -> PerfilSelectModel:
+    def get(id: int) -> PerfilSelectModel:
         with Conexion() as db:
             try:
                 query = f"SELECT * FROM {Perfil.tabla} WHERE id = %s"
-                result = db.execute(query, (quest_id,))
+                result = db.execute(query, (id,))
                 if result:
                     row = result[0]
                     return PerfilSelectModel(

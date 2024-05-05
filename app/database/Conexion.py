@@ -55,6 +55,10 @@ class Conexion:
                     if query.strip().lower().startswith("select"):
                         result = cursor.fetchall()
                         return result
+                    # Para consultas INSERT, devolver el ID generado
+                    elif query.strip().lower().startswith("insert"):
+                        self.connection.commit()
+                        return cursor.lastrowid  # Esto puede variar según la base de datos utilizada
                     # Para otras consultas, devolver el número de filas afectadas
                     else:
                         self.connection.commit()

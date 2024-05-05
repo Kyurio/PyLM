@@ -2,33 +2,30 @@ from app.database.Conexion import Conexion
 from app.schemas.SchemaConcepto import ConceptoSelectModel
 from typing import List
 
+
 class Conceptos:
     tabla = "conceptos"
 
     @staticmethod
-    def create(nombre: str) -> int:
-
-        with Conexion() as db:
-            try:
-
-                query = (f"INSERT INTO {Conceptos.tabla} (nombre, created_at, updated_at) VALUES "
-                         f"(%s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (nombre))
-                if result:
-                    return True
-                else:
-                    return False
-
-            except Exception as e:
-                print(f"Error al crear Conceptos: {e}")
-                raise
+    def create(data: dict) -> bool:
+        try:
+            with Conexion() as db:
+                columns = ', '.join(data.keys())
+                placeholders = ', '.join(['%s'] * len(data))
+                values = list(data.values())
+                query = f"INSERT INTO {Conceptos.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
+                db.execute(query, values)
+                return True
+        except Exception as e:
+            print(f"Error al crear usuario: {e}")
+            return False
 
     @staticmethod
-    def get(quest_id: int) -> ConceptoSelectModel:
+    def get(id: int) -> ConceptoSelectModel:
         with Conexion() as db:
             try:
                 query = f"SELECT * FROM {Conceptos.tabla} WHERE id = %s"
-                result = db.execute(query, (quest_id,))
+                result = db.execute(query, (id,))
                 if result:
                     row = result[0]
                     return ConceptoSelectModel(
@@ -81,7 +78,7 @@ class Conceptos:
                 for row in result:
                     rows.append(ConceptoSelectModel(
                         id=row[0],
-                        descripcion=row[1],
+                        nombre=row[1],
                         created_at=row[2],
                         updated_at=row[3]
                     ))

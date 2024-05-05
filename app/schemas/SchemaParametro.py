@@ -22,3 +22,5 @@ class ParametroCreateModel(BaseModel):
     ciclo_secado: int
     tasa_riego: float
     densidad: int
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None

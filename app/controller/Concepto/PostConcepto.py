@@ -7,10 +7,9 @@ router = APIRouter()
 @router.post("/PostConcepto/")
 def crear_concepto(request: ConceptoCreateModel):
     try:
-
         ususario_data = request.dict()
-        concpeto = Conceptos.create(**ususario_data)
-        return {"success": 200}
+        concpeto = Conceptos.create(ususario_data)
+        return concpeto
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al crear el perfil: {str(e)}")

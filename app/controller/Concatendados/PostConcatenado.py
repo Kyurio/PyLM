@@ -8,8 +8,8 @@ def create_concatenado(request: ConcatenadoCreateModel):
     try:
 
         ususario_data = request.dict()
-        concpeto = Concatenados.create(**ususario_data)
-        return {"concepto_id": concpeto}
+        response = Concatenados.create(ususario_data)
+        return response
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al crear el perfil: {str(e)}")

@@ -2,23 +2,26 @@ from app.database.Conexion import Conexion
 from app.schemas.SchemaParametro import ParametroCreateModel, ParametroSelectModel
 from typing import List
 
+
 class Parametros:
     tabla = "Parametros"
 
     @staticmethod
-    def create(descripcion: str) -> int:
+    def create(data: dict) -> bool:
         with Conexion() as db:
             try:
-                query = (f"INSERT INTO {Parametros.tabla} (descripcion, created_at, updated_at) VALUES "
-                         f"(%s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (descripcion))
-                if result:
+                with Conexion() as db:
+
+                    columns = ', '.join(data.keys())
+                    placeholders = ', '.join(['%s'] * len(data))
+                    values = list(data.values())
+                    query = f"INSERT INTO {Parametros.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
+                    print(query)
+                    db.execute(query, values)
                     return True
-                else:
-                    return None
             except Exception as e:
-                print(f"Error al crear Parametros: {e}")
-                raise
+                print(f"Error al crear usuario: {e}")
+                return False
 
     @staticmethod
     def get(quest_id: int) -> ParametroSelectModel:

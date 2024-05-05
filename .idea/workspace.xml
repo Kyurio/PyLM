@@ -46,7 +46,7 @@
     <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/GetUsuarios.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/PostUsuario.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/controller/Usuarios/UpdateUsuarios.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/database/Conexion.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/app/database/Conexion.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Auth.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Concatenados.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Conceptos.py" root0="FORCE_HIGHLIGHTING" />
@@ -57,10 +57,13 @@
     <setting file="file://$PROJECT_DIR$/app/model/PlanMovimiento.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Secuencia.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/model/Usuario.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/schemas/SchemaConcatenado.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/schemas/SchemaMovimiento.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/schemas/SchemaPerfil.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/schemas/SchemaUsuario.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/index.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/router/RouterConcatenado.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/router/RouterUsuario.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
@@ -83,6 +86,7 @@
     &quot;Python.Database.executor&quot;: &quot;Run&quot;,
     &quot;Python.PostPlanMensual.executor&quot;: &quot;Run&quot;,
     &quot;Python.RouterSecuenciasHeap.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Secuencia.executor&quot;: &quot;Run&quot;,
     &quot;Python.SecuenciaDeCarga.executor&quot;: &quot;Run&quot;,
     &quot;Python.UpdateUsuarios.executor&quot;: &quot;Run&quot;,
     &quot;Python.Usuario.executor&quot;: &quot;Run&quot;,
@@ -181,9 +185,9 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app/schemas/SchemaParametro.py</url>
-          <line>7</line>
-          <option name="timeStamp" value="5" />
+          <url>file://$PROJECT_DIR$/app/database/Conexion.py</url>
+          <line>14</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
