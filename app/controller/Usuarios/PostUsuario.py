@@ -1,17 +1,15 @@
 from fastapi import APIRouter, HTTPException
 from app.model.Usuario import Usuarios
-from app.schemas.SchemaUsuario import UsuarioResponseModel
+from app.schemas.SchemaUsuario import UsuarioCreateModel
 
 router = APIRouter()
 
 @router.post("/PostUsuario/")
-def crear_usuario(request: UsuarioResponseModel):
+def crear_usuario(request: UsuarioCreateModel):
     try:
 
-        print("respuesta de controller: ", request)
-
         ususario_data = request.dict()
-        usuarios = Usuarios.create(**ususario_data)
+        usuarios = Usuarios.create(ususario_data)
         return usuarios
 
     except Exception as e:

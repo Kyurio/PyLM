@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from app.model.Usuario import Usuarios
-from app.schemas.SchemaUsuario import UsuarioResponseModel
+from app.schemas.SchemaUsuario import UsuarioSelectModel
 from typing import List
 
 router = APIRouter()
-@router.get("/GetUsuarios/", response_model=List[UsuarioResponseModel])
+@router.get("/GetUsuarios/", response_model=List[UsuarioSelectModel])
 def listar_usuarios():
     try:
         user = Usuarios.get_all()
