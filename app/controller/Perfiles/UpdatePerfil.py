@@ -4,12 +4,12 @@ from app.schemas.SchemaPerfil import PerfilCreateModel
 
 router = APIRouter()
 
-@router.put("/UpdatePerfil/")
-def actualizar_perfil(perfil_request: PerfilCreateModel):
+@router.put("/UpdatePerfil/{id}")
+def actualizar_perfil(id: int, perfil_request: PerfilCreateModel):
     try:
 
         perfil_data = perfil_request.dict()
-        success = Perfil.update(**perfil_data)
+        success = Perfil.update(id, perfil_data)
         if success:
             return {"message": "Perfil actualizado exitosamente"}
         else:

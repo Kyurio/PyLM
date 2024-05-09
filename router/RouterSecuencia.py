@@ -13,10 +13,10 @@ def listar_secuencia_route():
 def crear_secuencia_route(request: SecuenciaCreateModel):
     return PostSecuencia(request)
 
-@router.put("/UpdateSecuencia/")
-def actualizar_secuencia_route(request: SecuenciaCreateModel):
-    return UpdateSecuencia(request)
+@router.put("/UpdateSecuencia/{id}")
+def actualizar_secuencia_route(id: int, request: SecuenciaCreateModel):
+    return UpdateSecuencia(id, request)
 
-@router.delete("/DeleteConcepto/{perfil_id}")
+@router.delete("/DeleteConcepto/{id}")
 def eliminar_secuencia_route(id: int):
     return DeleteSecuencia(id)

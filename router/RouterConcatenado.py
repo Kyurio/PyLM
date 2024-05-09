@@ -10,13 +10,13 @@ def listar_concatenado_route():
     return GetConcatenado()
 
 @router.post("/CreateConcepto/")
-def crear_concatenado_route(concepto_request: ConceptoCreateModel):
-    return PostConcatenado(concepto_request)
+def crear_concatenado_route(request: ConceptoCreateModel):
+    return PostConcatenado(request)
 
-@router.put("/UpdateConcepto/")
-def actualizar_concatenado_route(concepto_request: ConceptoCreateModel):
-    return UpdateConcatenado(concepto_request)
+@router.put("/UpdateConcepto/{id}")
+def actualizar_concatenado_route(id: int, concepto_request: ConceptoCreateModel):
+    return UpdateConcatenado(id, concepto_request)
 
-@router.delete("/DeleteConcepto/{perfil_id}")
-def eliminar_concatenado_route(concepto_id: int):
-    return DeleteConcatenado(concepto_id)
+@router.delete("/DeleteConcepto/{id}")
+def eliminar_concatenado_route(id: int):
+    return DeleteConcatenado(id)

@@ -10,13 +10,13 @@ def listar_concepto_route():
     return GetConcepto()
     
 @router.post("/CreateConcepto/")
-def crear_concepto_route(concatenado_request: ConceptoCreateModel):
-    return PostConcepto(concatenado_request)
+def crear_concepto_route(request: ConceptoCreateModel):
+    return PostConcepto(request)
     
-@router.put("/UpdateConcepto/")
-def actualizar_concepto_route(concatenado_router: ConceptoCreateModel):
-    return UpdateConcepto(concatenado_router)
+@router.put("/UpdateConcepto/{id}")
+def actualizar_concepto_route(id: int, request: ConceptoCreateModel):
+    return UpdateConcepto(id, request)
     
-@router.delete("/DeleteConcepto/{concatenado_id}")
-def eliminar_concepto_route(concatenado_id: int):
-    return DeleteConcepto(concatenado_id)
+@router.delete("/DeleteConcepto/{id}")
+def eliminar_concepto_route(id: int):
+    return DeleteConcepto(id)

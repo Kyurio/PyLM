@@ -5,11 +5,11 @@ from app.schemas.SchemaConcepto import ConceptoCreateModel
 router = APIRouter()
 
 @router.put("/UpdateConcatenado/")
-def actualizar_concatenado(request: ConceptoCreateModel):
+def actualizar_concatenado(id: int, request: ConceptoCreateModel):
     try:
 
         conceptos_data = request.dict()
-        success = Conceptos.update(**conceptos_data)
+        success = Conceptos.update(id, conceptos_data)
 
         if success:
             return {"message": "Perfil actualizado exitosamente"}

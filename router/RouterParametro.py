@@ -12,9 +12,9 @@ def listar_parametro_route():
 def crear_parametro_route(request: ParametroCreateModel):
     return PostParametro(request)
 
-@router.put("/UpdateParametro/")
-def actualizar_parametro_route(request: ParametroCreateModel):
-    return UpdateParametro(request)
+@router.put("/UpdateParametro/{id}")
+def actualizar_parametro_route(id: int, request: ParametroCreateModel):
+    return UpdateParametro(id, request)
 
 @router.delete("/DeleteParametro/{parametro_id}")
 def eliminar_concatenado_route(id: int):

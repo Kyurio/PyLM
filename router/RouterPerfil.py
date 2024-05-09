@@ -10,13 +10,13 @@ def listar_perfiles_route():
     return GetPerfiles()
 
 @router.post("/CreatePerfiles/")
-def crear_perfil_route(perfil_request: PerfilCreateModel):
-    return PostPerfil(perfil_request)
+def crear_perfil_route(request: PerfilCreateModel):
+    return PostPerfil(request)
 
-@router.put("/UpdatePerfiles/")
-def actualizar_perfil_route(perfil_request: PerfilCreateModel):
-    return UpdatePerfil(perfil_request)
+@router.put("/UpdatePerfiles/{id}")
+def actualizar_perfil_route(id: int, request: PerfilCreateModel):
+    return UpdatePerfil(id, request)
 
 @router.delete("/DeletePerfiles/{perfil_id}")
-def eliminar_perfil_route(perfil_id: int):
-    return DeletePerfil(perfil_id)
+def eliminar_perfil_route(id: int):
+    return DeletePerfil(id)

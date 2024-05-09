@@ -13,9 +13,9 @@ def listar_pla_movimiento_route():
 def crear_pla_movimiento_route(request: PlanMovimientoCreateModel):
     return PostPlanMovimiento(request)
 
-@router.put("/UpdatePlanMovimiento/")
-def actualizar_pla_movimiento_route(request: PlanMovimientoCreateModel):
-    return UpdatePlanMovimiento(request)
+@router.put("/UpdatePlanMovimiento/{id}")
+def actualizar_pla_movimiento_route(id: int, request: PlanMovimientoCreateModel):
+    return UpdatePlanMovimiento(id, request)
 
 @router.delete("/DeleteConcepto/{perfil_id}")
 def eliminar_pla_movimiento_route(id: int):

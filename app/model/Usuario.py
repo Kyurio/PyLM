@@ -33,27 +33,18 @@ class Usuarios:
             return None
 
     @staticmethod
-    def update(quest_id: int, usuario: str, nombre: str, password: str, correo: str, estado: bool) -> UsuarioSelectModel:
+    def update(id: int, data: dict) -> bool:
         try:
             with Conexion() as db:
-                query = f"UPDATE {Usuarios.tabla} SET usuario = %s, nombre = %s, password = %s, correo = %s, estado = %s, updated_at = NOW() WHERE id = %s"
-                db.execute(query, (usuario, nombre, password, correo, estado, quest_id))
-                result = db.execute(query, (quest_id,))
-                if result:
-                    row = result[0]
-                    return UsuarioSelectModel(
-                        id=row[0],
-                        id_perfil=row[1],
-                        usuario=row[2],
-                        password=row[3],
-                        correo=row[4],
-                        estado=row[5],
-                    )
-                else:
-                    return None
+                columns = ', '.join([f"{key} = %s" for key in data.keys()])
+                values = list(data.values())
+                values.append(id)
+                query = f"UPDATE {Usuarios.tabla} SET {columns}, updated_at = NOW() WHERE id = %s"
+                db.execute(query, values)
+                return True
         except Exception as e:
-            print(f"Error al obtener usuario: {e}")
-            raise
+            print(f"Error al actualizar usuario: {e}")
+            return False
 
     @staticmethod
     def delete(quest_id: int) -> bool:

@@ -4,7 +4,7 @@ from app.schemas.SchemaUsuario import UsuarioSelectModel, UsuarioCreateModel
 
 router = APIRouter()
 
-@router.put("/UpdateUsuario/")
+@router.put("/UpdateUsuario/{id}")
 def actualizar_usuario(id: int, data: UsuarioCreateModel):
     try:
         usuario_data = data.dict()

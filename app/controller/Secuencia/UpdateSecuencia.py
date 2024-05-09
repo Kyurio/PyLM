@@ -4,12 +4,12 @@ from app.schemas.SchemaSecuencia import SecuenciaCreateModel
 
 router = APIRouter()
 
-@router.put("/UpdateSecuencia/")
-def actualizar_secuencia(request: SecuenciaCreateModel):
+@router.put("/UpdateSecuencia/{id}")
+def actualizar_secuencia(id: int, request: SecuenciaCreateModel):
     try:
 
         data = request.dict()
-        success = Secuencia.update(**data)
+        success = Secuencia.update(id, data)
         if success:
             return {"message": "Perfil actualizado exitosamente"}
         else:

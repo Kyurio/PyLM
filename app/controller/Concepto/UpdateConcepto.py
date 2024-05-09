@@ -4,12 +4,12 @@ from app.schemas.SchemaConcepto import ConceptoCreateModel
 
 router = APIRouter()
 
-@router.put("/UpdateConceptos/")
-def actualizar_concepto(request: ConceptoCreateModel):
+@router.put("/UpdateConceptos/{id}")
+def actualizar_concepto(id: int, request: ConceptoCreateModel):
     try:
 
         response = request.dict()
-        success = Conceptos.update(**response)
+        success = Conceptos.update(id, response)
         if success:
             return {"message": "Perfil actualizado exitosamente"}
         else:

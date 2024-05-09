@@ -4,12 +4,12 @@ from app.schemas.SchemaParametro import ParametroCreateModel
 
 router = APIRouter()
 
-@router.put("/UpdateParametros/")
-def actualizar_parametros(request: ParametroCreateModel):
+@router.put("/UpdateParametros/{id}")
+def actualizar_parametros(id: int, request: ParametroCreateModel):
     try:
 
         response = request.dict()
-        success = Parametros.update(**response)
+        success = Parametros.update(id, response)
         if success:
             return {"message": "Perfil actualizado exitosamente"}
         else:

@@ -4,11 +4,11 @@ from app.schemas.SchemaParametro import ParametroCreateModel
 
 router = APIRouter()
 
-@router.put("/UpdatePlanMovimiento/")
-def actualizar_plan_movimiento(request: ParametroCreateModel):
+@router.put("/UpdatePlanMovimiento/{id}")
+def actualizar_plan_movimiento(id: int, request: ParametroCreateModel):
     try:
         response = request.dict()
-        success = PlanMovimiento.update(**response)
+        success = PlanMovimiento.update(id, response)
         if success:
             return {"message": "Perfil actualizado exitosamente"}
         else:

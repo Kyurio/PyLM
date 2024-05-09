@@ -8,22 +8,19 @@ class Perfil:
     tabla = "perfil"
 
     @staticmethod
-    def create(nombre_perfil: str, descripcion: str, estado: bool) -> int:
-        with Conexion() as db:
-            try:
+    def create(data: dict) -> bool:
+        try:
+            with Conexion() as db:
+                columns = ', '.join(data.keys())
+                placeholders = ', '.join(['%s'] * len(data))
+                values = list(data.values())
+                query = f"INSERT INTO {Perfil.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
+                db.execute(query, values)
+                return True
+        except Exception as e:
+            print(f"Error al crear usuario: {e}")
+            return False
 
-                query = (f"INSERT INTO {Perfil.tabla} (nombre_perfil, descripcion, estado, created_at, updated_at) VALUES "
-                         f"(%s, %s, %s, NOW(), NOW()) RETURNING id")
-                result = db.execute(query, (nombre_perfil, descripcion, estado,))
-
-                if result:
-                    return True
-                else:
-                    return False
-
-            except Exception as e:
-                print(f"Error al crear perfil: {e}")
-                raise
 
     @staticmethod
     def get(id: int) -> PerfilSelectModel:
@@ -48,16 +45,19 @@ class Perfil:
                 raise
 
     @staticmethod
-    def update(quest_id: int, nombre_perfil: str, descripcion: str, estado: bool) -> bool:
-        with Conexion() as db:
-            try:
-                query = f"UPDATE {Perfil.tabla} SET nombre_perfil = %s, descripcion = %s, estado = %s, updated_at = NOW() WHERE id = %s"
-                db.execute(query, (nombre_perfil, descripcion, estado, quest_id))
-                db.connection.commit()
+    def update(id: int, data: dict) -> bool:
+        try:
+            with Conexion() as db:
+                columns = ', '.join([f"{key} = %s" for key in data.keys()])
+                values = list(data.values())
+                values.append(id)
+                query = f"UPDATE {Perfil.tabla} SET {columns}, updated_at = NOW() WHERE id = %s"
+                db.execute(query, values)
                 return True
-            except Exception as e:
-                print(f"Error al actualizar perfil: {e}")
-                raise
+        except Exception as e:
+            print(f"Error al actualizar usuario: {e}")
+            return False
+
 
     @staticmethod
     def delete(quest_id: int) -> bool:

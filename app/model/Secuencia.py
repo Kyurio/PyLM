@@ -47,18 +47,18 @@ class Secuencia:
                 raise
 
     @staticmethod
-    def update(id: int, descripcion: str) -> bool:
-        with Conexion() as db:
-            try:
-
-                query = f"UPDATE {Secuencia.tabla} SET descripcion = %s, updated_at = NOW() WHERE id = %s"
-                db.execute(query, (descripcion, id,))
-                db.connection.commit()
+    def update(id: int, data: dict) -> bool:
+        try:
+            with Conexion() as db:
+                columns = ', '.join([f"{key} = %s" for key in data.keys()])
+                values = list(data.values())
+                values.append(id)
+                query = f"UPDATE {Secuencia.tabla} SET {columns}, updated_at = NOW() WHERE id = %s"
+                db.execute(query, values)
                 return True
-
-            except Exception as e:
-
-                return False
+        except Exception as e:
+            print(f"Error al actualizar usuario: {e}")
+            return False
 
     @staticmethod
     def delete(quest_id: int) -> bool:

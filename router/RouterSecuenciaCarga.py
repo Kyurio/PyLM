@@ -1,10 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File
 from app.controller.SecuenciaDeCarga import CargaPlanMensual
-from app.schemas.SchemaUsuario import UsuarioSelectModel, UsuarioCreateModel
-from typing import List
 
 router = APIRouter()
 
-@router.get("/DetalleLBDiario/", response_model=List[UsuarioSelectModel])
-def listar_usuario_route():
-    return GetUsuarios()
+@router.post("/CreateSecuencia/")
+def crear_secuencia_route(file: UploadFile = File(...)):
+    return CargaPlanMensual(file)
+
+

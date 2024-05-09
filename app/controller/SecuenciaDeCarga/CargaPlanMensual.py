@@ -1,19 +1,31 @@
-import pandas as pd
+from fastapi import APIRouter, HTTPException, UploadFile, File
+from app.controller.Secuencia import PostSecuencia
+from app.controller.Concepto import PostConcepto
+from app.controller.Movimiento import PostMovimiento
+from app.controller.PlanMovimiento import PostPlanMovimiento
 
-def leer_excel(ruta_excel):
+router = APIRouter()
+
+@router.post("/PostCargarPlanMinero/")
+def cargar_datos_desde_excel(file: UploadFile):
     try:
-        # Lee el archivo Excel
-        excel_data = pd.read_excel(ruta_excel, sheet_name='Nombre_de_la_primera_hoja')
-        return excel_data
+        # Datos estáticos
+        secuencia = {"descripcion": "Descripción de la secuencia estática"}
+        concepto = {"nombre": "Nombre del concepto estático"}
+        movimiento = {"id_plan_movimiento": 1, "descripcion": "Descripción del movimiento estático"}
+        plan_movimiento = {"id_movimiento": 1, "fecha": "2024-05-08T17:25:55.814Z"}
+
+        # Insertar datos estáticos y obtener los resultados
+        resultado_secuencia = PostSecuencia.crear_secuencia(secuencia)
+        resultado_concepto = PostConcepto.crear_concepto(concepto)
+        resultado_movimiento = PostMovimiento.crear_movimiento(movimiento)
+        resultado_plan_movimiento = PostPlanMovimiento.crear_plan_movimiento(plan_movimiento)
+
+        # Imprimir los resultados
+        print("Resultado secuencia:", resultado_secuencia)
+        print("Resultado concepto:", resultado_concepto)
+        print("Resultado movimiento:", resultado_movimiento)
+        print("Resultado plan movimiento:", resultado_plan_movimiento)
+
     except Exception as e:
-        return None, str(e)
-
-# Ejemplo de uso
-ruta_excel = input("Por favor, introduce la ruta al archivo Excel: ")
-datos_excel = leer_excel(ruta_excel)
-
-if datos_excel is not None:
-    print("Datos leídos correctamente del archivo Excel:")
-    print(datos_excel)  # Muestra todos los datos leídos del Excel
-else:
-    print("Error al leer el archivo Excel.")
+        print(f"Error al cargar datos estáticos: {str(e)}")

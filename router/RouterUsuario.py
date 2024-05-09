@@ -11,13 +11,13 @@ def listar_usuario_route():
     return GetUsuarios()
 
 @router.post("/CreateUsuarios/")
-def crear_usuario_route(perfil_request: UsuarioCreateModel):
-    return PostUsuario(perfil_request)
+def crear_usuario_route(request: UsuarioCreateModel):
+    return PostUsuario(request)
 
-@router.put("/UpdateUsuarios/")
-def actualizar_usuario_route(perfil_request: UsuarioCreateModel):
-    return UpdateUsuarios(perfil_request)
+@router.put("/UpdateUsuarios/{id}")
+def actualizar_usuario_route(id: int, request: UsuarioCreateModel):
+    return UpdateUsuarios(id, request)
 
 @router.delete("/DeleteUsuario/{usuario_id}")
-def eliminar_usuario_route(perfil_id: int):
-    return DeleteUsuario(perfil_id)
+def eliminar_usuario_route(id: int):
+    return DeleteUsuario(id)
