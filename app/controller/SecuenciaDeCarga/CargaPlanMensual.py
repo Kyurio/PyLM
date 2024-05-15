@@ -1,45 +1,46 @@
-# extenciones
-from fastapi import APIRouter, UploadFile, HTTPException
+from fastapi import APIRouter, UploadFile, HTTPException, File
+from fastapi.responses import JSONResponse
 import pandas as pd
-
-# controllers
-from app.controller.Secuencia import PostSecuencia
-from app.controller.Concepto import PostConcepto
-from app.controller.Movimiento import PostMovimiento
-from app.controller.PlanMovimiento import PostPlanMovimiento
-
-# schemas
-from app.schemas.SchemaConcepto import ConceptoCreateModel
-from app.schemas.SchemaSecuencia import SecuenciaCreateModel
-from app.schemas.SchemaMovimiento import MovimientoCreateModel
+import io
 
 router = APIRouter()
 
 
+def get_filtered_data(df, keyword):
+    """ Función para filtrar datos basados en una palabra clave """
+    row_filter = df.apply(lambda row: keyword in row.to_string(), axis=1)
+    selected_row = df[row_filter]
+    if not selected_row.empty:
+        return selected_row.to_dict(orient='records')
+    return {'message': f'No data found for {keyword}'}
+
+
 @router.post("/PostCargarPlanMinero/")
-def cargar_datos_desde_excel(file: UploadFile):
+async def cargar_datos_desde_excel(file: UploadFile = File(...)):
+    if not file.filename.endswith('.xlsx'):
+        raise HTTPException(status_code=400, detail="El archivo no es un archivo .xlsx válido.")
+
     try:
+        contents = await file.read()
+        data = io.BytesIO(contents)
+        df = pd.read_excel(data, sheet_name='DETALLE LB DIARIO')
 
-        import pandas as pd
+        # Convertimos todos los datos a string y eliminamos espacios adicionales
+        df = df.applymap(lambda x: str(x).strip() if isinstance(x, str) else x)
 
-        # Suponiendo que deseas leer todas las columnas con el nombre 'Tonnes'
-        concepto = 'Heap a Chancado'
-        sheet_name = 'DETALLE LB DIARIO'
-
-        # Leer el archivo Excel completo
-        df = pd.read_excel(file.file, sheet_name=sheet_name)
-
-        # Encontrar todas las columnas que contienen el concepto 'Tonnes'
-        columnas_tonnes = [col for col in df.columns if concepto in col]
-
-        # Crear un nuevo DataFrame con solo las columnas que contienen el concepto 'Tonnes'
-        df_tonnes = df[columnas_tonnes]
-
-        # Imprimir el contenido del DataFrame con las columnas 'Tonnes'
-        print(df_tonnes)
+        # conceptos a insertar
+        tonnes_data = get_filtered_data(df, 'Heap Mina a Chancado')
+        cut_data = get_filtered_data(df, '%CuT')
 
 
+        response_data = {
+            "Tonnes": tonnes_data,
+            "CuT": cut_data
+            # Agrega más aquí si es necesario
+        }
+
+        print(response_data)
 
     except Exception as e:
-        raise HTTPException(status_code=500,
-                            detail=f"Error al cargar datos desde la hoja '{sheet_name}' del archivo Excel: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al procesar el archivo Excel: {str(e)}")
+
