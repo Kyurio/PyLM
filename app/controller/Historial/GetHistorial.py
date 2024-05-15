@@ -1,27 +1,15 @@
 from fastapi import FastAPI, HTTPException, APIRouter
 from app.model.Historial import Historial
-from pydantic import BaseModel
-from datetime import datetime
+from app.schemas.SchemaHistorial import HistorialSelectModel
 from typing import List
 
 router = APIRouter()
 
-class HistorialRequest(BaseModel):
-    id: int
-    id_usuario: int
-    tabla_afectada: str
-    accion: str
-    fecha_hora: str
+@router.get("/GetHistorial/", response_model=List[HistorialSelectModel])
+def listar_historial():
+    try:
+        user = Historial.get_all()
+        return user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener los Usuarios: {str(e)}")
 
-
-@router.get("/Historial/", response_model=List[HistorialRequest])
-def ListadoHistorial():
-
-    historial = Historial()
-    response = historial.get_all()
-    return response
-
-
-# Agregar el router a la aplicación FastAPI
-app = FastAPI()
-app.include_router(router)

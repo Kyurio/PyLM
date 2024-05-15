@@ -32,6 +32,7 @@ app.include_router(RouterSecuenciaCarga.CargaPlanMensual.router)
 
 # Routers para los usuarios
 # CRUD de usuarios
+
 app.include_router(RouterUsuario.PostUsuario.router)
 app.include_router(RouterUsuario.GetUsuarios.router)
 app.include_router(RouterUsuario.UpdateUsuarios.router)

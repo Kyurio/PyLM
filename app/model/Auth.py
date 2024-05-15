@@ -9,7 +9,7 @@ class Auth:
         try:
 
             db_connector.connect()  # Conecta a la base de datos
-            query = f"SELECT * FROM {cls.tabla} WHERE correo= %s AND password = %s"
+            query = f"SELECT * FROM {cls.tabla} WHERE correo= %s AND password = %s OR usuario = %s AND estado = 0"
             result = db_connector.execute(query, [email, clave])
             return result
 

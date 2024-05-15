@@ -1,31 +1,45 @@
-from fastapi import APIRouter, HTTPException, UploadFile, File
+# extenciones
+from fastapi import APIRouter, UploadFile, HTTPException
+import pandas as pd
+
+# controllers
 from app.controller.Secuencia import PostSecuencia
 from app.controller.Concepto import PostConcepto
 from app.controller.Movimiento import PostMovimiento
 from app.controller.PlanMovimiento import PostPlanMovimiento
 
+# schemas
+from app.schemas.SchemaConcepto import ConceptoCreateModel
+from app.schemas.SchemaSecuencia import SecuenciaCreateModel
+from app.schemas.SchemaMovimiento import MovimientoCreateModel
+
 router = APIRouter()
+
 
 @router.post("/PostCargarPlanMinero/")
 def cargar_datos_desde_excel(file: UploadFile):
     try:
-        # Datos estáticos
-        secuencia = {"descripcion": "Descripción de la secuencia estática"}
-        concepto = {"nombre": "Nombre del concepto estático"}
-        movimiento = {"id_plan_movimiento": 1, "descripcion": "Descripción del movimiento estático"}
-        plan_movimiento = {"id_movimiento": 1, "fecha": "2024-05-08T17:25:55.814Z"}
 
-        # Insertar datos estáticos y obtener los resultados
-        resultado_secuencia = PostSecuencia.crear_secuencia(secuencia)
-        resultado_concepto = PostConcepto.crear_concepto(concepto)
-        resultado_movimiento = PostMovimiento.crear_movimiento(movimiento)
-        resultado_plan_movimiento = PostPlanMovimiento.crear_plan_movimiento(plan_movimiento)
+        import pandas as pd
 
-        # Imprimir los resultados
-        print("Resultado secuencia:", resultado_secuencia)
-        print("Resultado concepto:", resultado_concepto)
-        print("Resultado movimiento:", resultado_movimiento)
-        print("Resultado plan movimiento:", resultado_plan_movimiento)
+        # Suponiendo que deseas leer todas las columnas con el nombre 'Tonnes'
+        concepto = 'Heap a Chancado'
+        sheet_name = 'DETALLE LB DIARIO'
+
+        # Leer el archivo Excel completo
+        df = pd.read_excel(file.file, sheet_name=sheet_name)
+
+        # Encontrar todas las columnas que contienen el concepto 'Tonnes'
+        columnas_tonnes = [col for col in df.columns if concepto in col]
+
+        # Crear un nuevo DataFrame con solo las columnas que contienen el concepto 'Tonnes'
+        df_tonnes = df[columnas_tonnes]
+
+        # Imprimir el contenido del DataFrame con las columnas 'Tonnes'
+        print(df_tonnes)
+
+
 
     except Exception as e:
-        print(f"Error al cargar datos estáticos: {str(e)}")
+        raise HTTPException(status_code=500,
+                            detail=f"Error al cargar datos desde la hoja '{sheet_name}' del archivo Excel: {str(e)}")

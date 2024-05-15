@@ -1,0 +1,28 @@
+
+      '''
+        conceptoExcel = df.iloc[:, 2]
+        movimientoExcel = df.iloc[:, 8]  # Asumiendo que el valor del movimiento está en la columna 8
+
+        # Suponiendo que cada concepto tiene un valor único que puede ser el nombre
+        concepto_id_map = {}
+        for dato_c in conceptoExcel.unique():
+            if not pd.isna(dato_c):
+                concepto = {"nombre": str(dato_c)}
+                concepto_model = ConceptoCreateModel(**concepto)
+                concepto_id = PostConcepto.crear_concepto(concepto_model)
+                concepto_id_map[str(dato_c)] = concepto_id
+
+        # Asumiendo que ya tenemos un id_secuencia disponible
+        id_secuencia = PostSecuencia.obtener_ultima_secuencia_id()
+
+        # Inserta los movimientos
+        for concepto, valor in zip(conceptoExcel, movimientoExcel):
+            if not pd.isna(concepto) and not pd.isna(valor):
+                movimiento = {
+                    "id_concepto": concepto_id_map[str(concepto)],
+                    "id_secuencia": id_secuencia,
+                    "valor": valor
+                }
+                movimiento_model = MovimientoCreateModel(**movimiento)
+                PostMovimiento.crear_movimiento(movimiento_model)
+      '''

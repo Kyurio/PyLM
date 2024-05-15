@@ -40,8 +40,8 @@ class Usuarios:
                 values = list(data.values())
                 values.append(id)
                 query = f"UPDATE {Usuarios.tabla} SET {columns}, updated_at = NOW() WHERE id = %s"
-                db.execute(query, values)
-                return True
+                result = db.execute(query, values)
+                return result
         except Exception as e:
             print(f"Error al actualizar usuario: {e}")
             return False

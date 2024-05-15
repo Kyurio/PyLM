@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from app.model.Historial import Historial
-from app.schemas.SchemaConcatenado import ConcatenadoCreateModel
+from app.schemas.SchemaHistorial import HistorialCreateModel
 
 router = APIRouter()
 
 @router.post("/PostHistorial/")
-def crear_historial(request: ConcatenadoCreateModel):
+def crear_historial(request: HistorialCreateModel):
     try:
         concatenado = request.dict()
         response = Historial.create(**concatenado)
