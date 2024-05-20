@@ -6,7 +6,7 @@ class PerfilCreateModel(BaseModel):
     created: int
     updated: int
     deleted: int
-    read: int
+    leer: int
     estado: bool
 
 class PerfilSelectModel(BaseModel):
