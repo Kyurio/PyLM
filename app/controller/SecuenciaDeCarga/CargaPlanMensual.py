@@ -1,18 +1,33 @@
-from fastapi import APIRouter, UploadFile, HTTPException, File
-from fastapi.responses import JSONResponse
 import pandas as pd
 import io
+from fastapi import APIRouter, UploadFile, HTTPException, File
+from fastapi.responses import JSONResponse
+
+# imports de controllers
+from app.controller.Secuencia import PostSecuencia
+from app.controller.Concepto import PostConcepto
+
+# imports de schemas
+from app.schemas.SchemaSecuencia import SecuenciaCreateModel
+from app.schemas.SchemaConcepto import ConceptoCreateModel
 
 router = APIRouter()
 
 
-def get_filtered_data(df, keyword):
-    """ Función para filtrar datos basados en una palabra clave """
-    row_filter = df.apply(lambda row: keyword in row.to_string(), axis=1)
-    selected_row = df[row_filter]
-    if not selected_row.empty:
-        return selected_row.to_dict(orient='records')
-    return {'message': f'No data found for {keyword}'}
+def clean_dataframe(df):
+    """ Función para limpiar DataFrame inicial (DataFrame A). """
+    df = df.dropna(axis=1, how='all')  # Eliminar columnas completamente vacías
+    df = df.loc[:, ~(df.columns.str.contains('Unnamed') & df.isna().all())]  # Eliminar 'Unnamed' sin datos útiles
+    return df
+
+def extract_conceptos(df):
+    """ Función para extraer los conceptos del DataFrame. """
+    conceptos = []
+    for index, row in df.iterrows():
+        concepto = row[0]
+        if pd.notna(concepto) and concepto not in conceptos:
+            conceptos.append(concepto)
+    return conceptos
 
 
 @router.post("/PostCargarPlanMinero/")
@@ -21,26 +36,28 @@ async def cargar_datos_desde_excel(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="El archivo no es un archivo .xlsx válido.")
 
     try:
+
         contents = await file.read()
         data = io.BytesIO(contents)
         df = pd.read_excel(data, sheet_name='DETALLE LB DIARIO')
+        df = clean_dataframe(df)
 
-        # Convertimos todos los datos a string y eliminamos espacios adicionales
-        df = df.applymap(lambda x: str(x).strip() if isinstance(x, str) else x)
+        # guarda el plan mensual
+        plan_mensual = df.iloc[0, 0]
+        pit_lomas = df.iloc[1, 0]
+        secuencia_descripcion = f"{plan_mensual} {pit_lomas}"
+        secuencia_data = SecuenciaCreateModel(descripcion=secuencia_descripcion)
+        response = PostSecuencia.crear_secuencia(secuencia_data)
 
-        # conceptos a insertar
-        tonnes_data = get_filtered_data(df, 'Heap Mina a Chancado')
-        cut_data = get_filtered_data(df, '%CuT')
+        # Extraer y guardar los conceptos
+        conceptos = extract_conceptos(df)
+        for concepto in conceptos:
+            concepto_data = ConceptoCreateModel(nombre=concepto)
+            response = PostConcepto.crear_concepto(concepto_data)
+            print(response)
 
 
-        response_data = {
-            "Tonnes": tonnes_data,
-            "CuT": cut_data
-            # Agrega más aquí si es necesario
-        }
 
-        print(response_data)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al procesar el archivo Excel: {str(e)}")
-
