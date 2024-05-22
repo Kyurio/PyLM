@@ -11,4 +11,6 @@ class ConcatenadoCreateModel(BaseModel):
     id_plan_movimiento: int
     descripcion: str
 
+class LastID(BaseModel):
+    id: int
 

@@ -4,6 +4,7 @@ import psycopg2
 
 
 class Conexion:
+
     def __init__(self, env_path='.env'):
         self.env_path = env_path
         self.load_env()  # Cargar las variables de entorno desde el archivo .env
@@ -28,21 +29,17 @@ class Conexion:
                 database=os.getenv("DB_NAME"),
                 port=os.getenv("DB_PORT"),
             )
-            print("Conexión exitosa a la base de datos PostgreSQL")
         except psycopg2.Error as e:
-            print(f"Error al conectar a la base de datos PostgreSQL: {e}")
             raise
 
     def close(self):
         if self.connection:
             try:
                 self.connection.close()
-                print("Conexión a la base de datos PostgreSQL cerrada")
             except psycopg2.Error as e:
                 print(f"Error al cerrar la conexión: {e}")
 
     def execute(self, query, values=None):
-        print("Consulta ejecutada:", query)
         if self.connection:
             try:
                 with self.connection.cursor() as cursor:
@@ -58,7 +55,7 @@ class Conexion:
                     # Para consultas INSERT, devolver el ID generado
                     elif query.strip().lower().startswith("insert"):
                         self.connection.commit()
-                        return cursor.lastrowid  # Esto puede variar según la base de datos utilizada
+                        return cursor.fetchone()[0]  # Obtener el ID generado
                     # Para otras consultas, devolver el número de filas afectadas
                     else:
                         self.connection.commit()

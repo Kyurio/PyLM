@@ -14,3 +14,6 @@ class PlanMovimientoCreateModel(BaseModel):
     fecha: datetime
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
+
+class LastID(BaseModel):
+    id: int

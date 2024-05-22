@@ -24,3 +24,6 @@ class ParametroCreateModel(BaseModel):
     densidad: int
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
+
+class LastID(BaseModel):
+    id: int

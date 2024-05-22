@@ -9,8 +9,9 @@ def listar_movimineto():
     try:
 
         request = Movimientos.get_all()
+        print("esto se retorna desde el modelo: ", request)
         return request
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener los Conceptos: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al obtener los movimientos: {str(e)}")
 

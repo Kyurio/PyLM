@@ -89,3 +89,15 @@ class Concatenados:
         except Exception as e:
             print(f"Error al obtener todos los Concatenadoses: {e}")
             raise
+
+    @staticmethod
+    def get_last_id() -> int:
+        with Conexion() as db:
+            try:
+                query = f"SELECT MAX(id) FROM {Concatenados.tabla}"
+                result = db.execute(query)
+                last_id = result[0][0] if result else None
+                return last_id
+            except Exception as e:
+                print(f"Error al obtener el último ID: {e}")
+                return None

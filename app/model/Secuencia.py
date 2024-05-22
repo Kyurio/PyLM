@@ -6,19 +6,16 @@ class Secuencia:
     tabla = "secuencia"
 
     @staticmethod
-    def create(data: dict) -> bool:
+    def create(data: dict) -> int:
         print("entro al create")
         with Conexion() as db:
             try:
-                with Conexion() as db:
-
-                    columns = ', '.join(data.keys())
-                    placeholders = ', '.join(['%s'] * len(data))
-                    values = list(data.values())
-                    query = f"INSERT INTO {Secuencia.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
-                    print(query)
-                    db.execute(query, values)
-                    return True
+                columns = ', '.join(data.keys())
+                placeholders = ', '.join(['%s'] * len(data))
+                values = list(data.values())
+                query = f"INSERT INTO {Secuencia.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
+                last_id = db.execute(query, values)
+                return last_id  # Devolver el ID generado
             except Exception as e:
                 print(f"Error al crear usuario: {e}")
                 return False
@@ -90,3 +87,15 @@ class Secuencia:
                 return rows
         except Exception as e:
             raise
+
+    @staticmethod
+    def get_last_id() -> int:
+        with Conexion() as db:
+            try:
+                query = f"SELECT MAX(id) FROM {Secuencia.tabla}"
+                result = db.execute(query)
+                last_id = result[0][0] if result else None
+                return last_id
+            except Exception as e:
+                print(f"Error al obtener el último ID: {e}")
+                return None

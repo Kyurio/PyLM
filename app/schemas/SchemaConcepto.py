@@ -7,3 +7,5 @@ class ConceptoSelectModel(BaseModel):
     nombre: str
     created_at: datetime
     updated_at: datetime
+class LastID(BaseModel):
+    id: int

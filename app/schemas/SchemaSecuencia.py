@@ -12,3 +12,5 @@ class SecuenciaCreateModel(BaseModel):
 
     descripcion: str
 
+class LastID(BaseModel):
+    id: int
