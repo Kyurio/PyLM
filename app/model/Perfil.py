@@ -33,10 +33,13 @@ class Perfil:
                     return PerfilSelectModel(
                         id=row[0],
                         id_perfil=row[1],
-                        descripcion=row[2],
-                        estado=row[3],
-                        created_at=row[4],
-                        updated_at=row[5]
+                        estado=row[2],
+                        created_at=row[3],
+                        updated_at=row[4],
+                        created=row[5],
+                        updated=row[6],
+                        deleted=row[7],
+                        leer=row[8]
                     )
                 else:
                     return None
@@ -82,10 +85,13 @@ class Perfil:
                     rows.append(PerfilSelectModel(
                         id=row[0],
                         nombre_perfil=row[1],
-                        descripcion=row[2],
-                        estado=row[3],
-                        created_at=row[4],
-                        updated_at=row[5]
+                        estado=row[2],
+                        created_at=row[3],
+                        updated_at=row[4],
+                        created=row[5],
+                        updated=row[6],
+                        deleted=row[7],
+                        leer=row[8]
                     ))
                 return rows
         except Exception as e:
