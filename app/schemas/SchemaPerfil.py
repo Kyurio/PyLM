@@ -4,10 +4,10 @@ from datetime import datetime
 class PerfilCreateModel(BaseModel):
     nombre_perfil: str
     estado: bool
-    created: int
-    updated: int
-    deleted: int
-    leer: int
+    created: bool
+    updated: bool
+    deleted: bool
+    leer: bool
 
 
 class PerfilSelectModel(BaseModel):
@@ -16,9 +16,9 @@ class PerfilSelectModel(BaseModel):
     estado: bool
     created_at: datetime
     updated_at: datetime
-    created: int
-    updated: int
-    deleted: int
-    leer: int
+    created: bool
+    updated: bool
+    deleted: bool
+    leer: bool
 
 
