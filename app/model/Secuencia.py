@@ -7,7 +7,6 @@ class Secuencia:
 
     @staticmethod
     def create(data: dict) -> int:
-        print("entro al create")
         with Conexion() as db:
             try:
                 columns = ', '.join(data.keys())

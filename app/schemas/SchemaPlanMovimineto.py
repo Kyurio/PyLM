@@ -12,8 +12,7 @@ class PlanMovimientoSelectModel(BaseModel):
 class PlanMovimientoCreateModel(BaseModel):
     id_movimiento: int
     fecha: datetime
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
+
 
 class LastID(BaseModel):
     id: int

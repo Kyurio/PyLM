@@ -29,6 +29,7 @@ app.add_middleware(
 # Routers para la secuencia de carga
 # secuencia de carga
 app.include_router(RouterSecuenciaCarga.CargaPlanMensual.router)
+app.include_router(RouterSecuenciaCarga.GetPlanMensual.router)
 
 # Routers para los usuarios
 # CRUD de usuarios

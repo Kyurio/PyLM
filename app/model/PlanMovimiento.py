@@ -3,7 +3,7 @@ from app.schemas.SchemaPlanMovimineto import PlanMovimientoSelectModel, PlanMovi
 from typing import List
 
 class PlanMovimiento:
-    tabla = "PlanMovimiento"
+    tabla = "plan_movimiento"
 
     @staticmethod
     def create(data: dict) -> bool:
@@ -75,9 +75,10 @@ class PlanMovimiento:
                 for row in result:
                     rows.append(PlanMovimientoSelectModel(
                         id=row[0],
-                        descripcion=row[1],
-                        created_at=row[2],
-                        updated_at=row[3]
+                        id_movimiento=row[1],
+                        fecha=row[2],
+                        created_at=row[3],
+                        updated_at=row[4]
                     ))
                 return rows
         except Exception as e:

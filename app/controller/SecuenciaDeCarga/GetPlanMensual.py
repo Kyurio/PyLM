@@ -1,15 +1,16 @@
 from fastapi import APIRouter, HTTPException
-from app.model.Conceptos import Conceptos
-from app.schemas.SchemaConcepto import ConceptoSelectModel
+from app.model.PlanMensual import PlanMensual
 from typing import List
 
 router = APIRouter()
 
-@router.get("/GetConcepto/", response_model=List[ConceptoSelectModel])
-def listar_conceptos():
+@router.get("/GetPlanMensual/")
+def listar_plan_mensual():
     try:
-        concepto = Conceptos.get_all()
-        return concepto
+        result = PlanMensual.get_all()
+        print(result)
+        return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener los Conceptos: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al obtener el plan mensual: {str(e)}")
+
 
