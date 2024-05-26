@@ -3,8 +3,8 @@ import io
 from fastapi import APIRouter, UploadFile, HTTPException, File
 from datetime import datetime, timedelta
 
-#importa los controllers
-from app.controller.Concepto import PostConcepto
+# importa los controllers
+from app.controller.Concepto import PostConcepto, GetConcepto
 from app.controller.Concepto import GetLastID as idConcepto
 from app.controller.PlanMovimiento import PostPlanMovimiento
 
@@ -13,15 +13,14 @@ from app.controller.Secuencia import GetLastID as idSecuencia
 from app.controller.Movimiento import PostMovimiento, GetLastID as idMovimiento
 from app.controller.PlanMovimiento.PostPlanMovimiento import crear_plan_movimiento
 
-#importa los schemas
+# importa los schemas
 from app.schemas.SchemaConcepto import ConceptoCreateModel, LastID
 from app.schemas.SchemaSecuencia import SecuenciaCreateModel, LastID
 from app.schemas.SchemaMovimiento import MovimientoCreateModel, LastID
 from app.schemas.SchemaPlanMovimineto import PlanMovimientoCreateModel, LastID
 
-
-
 router = APIRouter()
+
 
 def clean_dataframe(df):
     """ Función para limpiar DataFrame inicial (DataFrame A). """
@@ -29,9 +28,11 @@ def clean_dataframe(df):
     df = df.loc[:, ~(df.columns.str.contains('Unnamed') & df.isna().all())]  # Eliminar 'Unnamed' sin datos útiles
     return df
 
+
 def extract_column_data(df, column_name):
     """ Función para extraer datos únicos de una columna específica del DataFrame. """
     return df[column_name].dropna().unique().tolist()
+
 
 def find_row_by_text(df, text):
     """ Función para encontrar la fila que contiene un texto específico. """
@@ -39,6 +40,7 @@ def find_row_by_text(df, text):
         if row.astype(str).str.contains(text).any():
             return row
     return None
+
 
 def identify_date_columns(df):
     # Identificar las columnas que contienen fechas
@@ -57,6 +59,10 @@ def get_current_month_days():
     return days
 
 
+def ExtraeConcetpos():
+    conceptos = GetConcepto.Conceptos()
+    return conceptos
+
 
 @router.post("/PostCargarPlanMinero/")
 async def cargar_datos_desde_excel(file: UploadFile = File(...)):
@@ -64,7 +70,6 @@ async def cargar_datos_desde_excel(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="El archivo no es un archivo .xlsx válido.")
 
     try:
-
 
         contents = await file.read()
         data = io.BytesIO(contents)
@@ -78,43 +83,51 @@ async def cargar_datos_desde_excel(file: UploadFile = File(...)):
         #########################################################################
 
         # Identificar el nombre de la columna D
-        #column_name = df.columns[1]  # Índice 3 corresponde a la columna D
-        #column_data = extract_column_data(df, column_name)
-        #for item in column_data:
-         #   print(item)
-            #concepto_data = ConceptoCreateModel(nombre=item)
-            #response = PostConcepto.crear_concepto(concepto_data)
+        # column_name = df.columns[1]  # Índice 3 corresponde a la columna D
+        # column_data = extract_column_data(df, column_name)
+        # for item in column_data:
+        #    concepto_data = ConceptoCreateModel(nombre=item)
+        #    response = PostConcepto.crear_concepto(concepto_data)
 
+        #    if response:
         #########################################################################
         #
         # inserta la secuencia
         #
         #########################################################################
-        #column_name = df.columns[0]
-        #column_data = extract_column_data(df, column_name)
-        #for item in column_data:
-            #secuencia_data = SecuenciaCreateModel(descripcion=str(item))
-            #response = PostSecuencia.crear_secuencia(secuencia_data)
+        column_name = df.columns[0]
+        column_data = extract_column_data(df, column_name)
+        for item in column_data:
+            secuencia_data = SecuenciaCreateModel(descripcion=str(item))
+            response = PostSecuencia.crear_secuencia(secuencia_data)
 
-        #########################################################################
-        #
-        # inserta la movimiento
-        #
-        #########################################################################
+            #if response:
 
-        #id_concepto = idConcepto.LastID()
-        #id_secuencia = idSecuencia.LastID()
+                #########################################################################
+                #
+                # inserta la movimiento
+                #
+                #########################################################################
 
-        #row_data = find_row_by_text(df, 'Tonnes')
-        #if row_data is None:
-        #    raise HTTPException(status_code=404, detail="No se encontró una fila que contenga 'Tonnes'.")
+                id_concepto = idConcepto.LastID()
+                id_secuencia = idSecuencia.LastID()
 
-        # Filtrar solo los valores numéricos
-        #numeric_data = pd.to_numeric(row_data, errors='coerce').dropna()
+                conceptos = ExtraeConcetpos()
+                print(conceptos)
 
-        #for item in numeric_data:
-        #    movimiento_data = MovimientoCreateModel(id_concepto=id_concepto, id_secuencia=id_secuencia, valor=item)
-        #    response = PostMovimiento.crear_movimiento(movimiento_data)
+          #      row_data = find_row_by_text(df, 'Tonnes')
+         #       if row_data is None:
+          #          raise HTTPException(status_code=404,
+           #                             detail="No se encontró una fila que contenga 'Tonnes'.")
+
+                    # Filtrar solo los valores numéricos
+        #            numeric_data = pd.to_numeric(row_data, errors='coerce').dropna()
+        #            for item in numeric_data:
+        #                movimiento_data = MovimientoCreateModel(id_concepto=id_concepto,
+        #                                                        id_secuencia=id_secuencia, valor=item)
+        #                response = PostMovimiento.crear_movimiento(movimiento_data)
+
+        #                if response:
 
         #########################################################################
         #
@@ -123,17 +136,15 @@ async def cargar_datos_desde_excel(file: UploadFile = File(...)):
         #########################################################################
 
         # Capturar los 30 días del mes actual
-        id_movimiento = idMovimiento.LastID()
-        dias_del_mes = get_current_month_days()
+        #                   id_movimiento = idMovimiento.LastID()
+        #                    dias_del_mes = get_current_month_days()
 
         # Mostrar los días
-        for dia in dias_del_mes:
-            movimiento_data = PlanMovimientoCreateModel(id_movimiento=id_movimiento, fecha=dia.strftime('%Y-%m-%d'))
-            response = PostPlanMovimiento.crear_plan_movimiento(movimiento_data)
-            print(response)
+        #                    for dia in dias_del_mes:
+        #                        movimiento_data = PlanMovimientoCreateModel(id_movimiento=id_movimiento,
+        #                        fecha=dia.strftime('%Y-%m-%d'))
+        #                        response = PostPlanMovimiento.crear_plan_movimiento(movimiento_data)
+        #                        print(response)
 
-
-
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al procesar el archivo Excel: {str(e)}")
+# except Exception as e:
+# raise HTTPException(status_code=500, detail=f"Error al procesar el archivo Excel: {str(e)}")
