@@ -10,8 +10,6 @@ def crear_movimiento(request: MovimientoCreateModel):
 
 
         data = request.dict()
-
-        print("asi esta recibiendo el controller: ", data)
         response = Movimientos.create(data)
         return response
 

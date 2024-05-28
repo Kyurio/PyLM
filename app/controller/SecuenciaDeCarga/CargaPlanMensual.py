@@ -21,18 +21,15 @@ from app.schemas.SchemaPlanMovimineto import PlanMovimientoCreateModel, LastID
 
 router = APIRouter()
 
-
 def clean_dataframe(df):
     """ Función para limpiar DataFrame inicial (DataFrame A). """
     df = df.dropna(axis=1, how='all')  # Eliminar columnas completamente vacías
     df = df.loc[:, ~(df.columns.str.contains('Unnamed') & df.isna().all())]  # Eliminar 'Unnamed' sin datos útiles
     return df
 
-
 def extract_column_data(df, column_name):
     """ Función para extraer datos únicos de una columna específica del DataFrame. """
     return df[column_name].dropna().unique().tolist()
-
 
 def find_row_by_text(df, text):
     """ Función para encontrar la fila que contiene un texto específico. """
@@ -40,7 +37,6 @@ def find_row_by_text(df, text):
         if row.astype(str).str.contains(text).any():
             return row
     return None
-
 
 def identify_date_columns(df):
     # Identificar las columnas que contienen fechas
@@ -50,7 +46,6 @@ def identify_date_columns(df):
             date_columns.append(col)
     return date_columns
 
-
 def get_current_month_days():
     """ Función para capturar el mes actual y generar los 30 días. """
     today = datetime.today()
@@ -58,11 +53,16 @@ def get_current_month_days():
     days = [start_date + timedelta(days=i) for i in range(30)]
     return days
 
+def listar_conceptos():
+    try:
+        concepto = GetConcepto.listar_conceptos()
+        return concepto
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener los Conceptos: {str(e)}")
 
-def ExtraeConcetpos():
-    conceptos = GetConcepto.Conceptos()
-    return conceptos
-
+def extraer_nombres_conceptos(conceptos):
+    """Función para extraer los nombres de una lista de ConceptoSelectModel."""
+    return [concepto.nombre for concepto in conceptos]
 
 @router.post("/PostCargarPlanMinero/")
 async def cargar_datos_desde_excel(file: UploadFile = File(...)):
@@ -70,81 +70,64 @@ async def cargar_datos_desde_excel(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="El archivo no es un archivo .xlsx válido.")
 
     try:
-
         contents = await file.read()
         data = io.BytesIO(contents)
-        df = pd.read_excel(data, sheet_name='DETALLE LB DIARIO', engine='openpyxl')  # Especificar el nombre de la hoja
+        df = pd.read_excel(data, sheet_name='DETALLE FINAL DIARIO', engine='openpyxl')
         df = clean_dataframe(df)
 
-        #########################################################################
-        #
-        # inserta el concepto
-        #
-        #########################################################################
-
-        # Identificar el nombre de la columna D
-        # column_name = df.columns[1]  # Índice 3 corresponde a la columna D
-        # column_data = extract_column_data(df, column_name)
-        # for item in column_data:
-        #    concepto_data = ConceptoCreateModel(nombre=item)
-        #    response = PostConcepto.crear_concepto(concepto_data)
-
-        #    if response:
-        #########################################################################
-        #
-        # inserta la secuencia
-        #
-        #########################################################################
-        column_name = df.columns[0]
-        column_data = extract_column_data(df, column_name)
+        # Insertar secuencias
+        column_data = extract_column_data(df, df.columns[0])
         for item in column_data:
             secuencia_data = SecuenciaCreateModel(descripcion=str(item))
             response = PostSecuencia.crear_secuencia(secuencia_data)
+            if not response:
+                raise HTTPException(status_code=500, detail="Error al insertar la secuencia")
 
-            #if response:
+        # Insertar conceptos
+        conceptos = extract_column_data(df, df.columns[1])
+        for item in conceptos:
+            if item != 'FECHA':
+                concepto_data = ConceptoCreateModel(nombre=item)
+                response = PostConcepto.crear_concepto(concepto_data)
+                if not response:
+                    raise HTTPException(status_code=500, detail="Error al insertar el concepto")
 
-                #########################################################################
-                #
-                # inserta la movimiento
-                #
-                #########################################################################
+        # Obtener IDs de conceptos y secuencias
+        id_concepto = idConcepto.LastID()
+        id_secuencia = idSecuencia.LastID()
 
-                id_concepto = idConcepto.LastID()
-                id_secuencia = idSecuencia.LastID()
+        if not id_concepto or not id_secuencia:
+            raise HTTPException(status_code=500, detail="No se pudieron obtener los IDs de concepto o secuencia")
 
-                conceptos = ExtraeConcetpos()
-                print(conceptos)
+        # Obtener nombres de conceptos desde la base de datos
+        conceptos = listar_conceptos()
+        nombres_conceptos = extraer_nombres_conceptos(conceptos)
 
-          #      row_data = find_row_by_text(df, 'Tonnes')
-         #       if row_data is None:
-          #          raise HTTPException(status_code=404,
-           #                             detail="No se encontró una fila que contenga 'Tonnes'.")
+        for nombre in nombres_conceptos:
+            row_data = find_row_by_text(df, nombre)
+            if row_data is None:
+                continue
 
-                    # Filtrar solo los valores numéricos
-        #            numeric_data = pd.to_numeric(row_data, errors='coerce').dropna()
-        #            for item in numeric_data:
-        #                movimiento_data = MovimientoCreateModel(id_concepto=id_concepto,
-        #                                                        id_secuencia=id_secuencia, valor=item)
-        #                response = PostMovimiento.crear_movimiento(movimiento_data)
+            # Convertir datos numéricos
+            numeric_data = pd.to_numeric(row_data, errors='coerce').dropna()
+            for item in numeric_data:
+                movimiento_data = MovimientoCreateModel(id_concepto=id_concepto, id_secuencia=id_secuencia, valor=item)
+                response = PostMovimiento.crear_movimiento(movimiento_data)
+                if not response:
+                    raise HTTPException(status_code=500, detail="Error al insertar el movimiento")
 
-        #                if response:
+                # Insertar plan movimiento después de cada inserción de movimiento
+                id_movimiento = idMovimiento.LastID()
+                if not id_movimiento:
+                    raise HTTPException(status_code=500, detail="Error al obtener el ID del último movimiento")
 
-        #########################################################################
-        #
-        # inserta el plan movimineto
-        #
-        #########################################################################
+                dias_del_mes = get_current_month_days()
+                for dia in dias_del_mes:
+                    plan_movimiento_data = PlanMovimientoCreateModel(id_movimiento=id_movimiento, fecha=dia.strftime('%Y-%m-%d'))
+                    response = PostPlanMovimiento.crear_plan_movimiento(plan_movimiento_data)
+                    if not response:
+                        raise HTTPException(status_code=500, detail="Error al insertar el plan movimiento")
 
-        # Capturar los 30 días del mes actual
-        #                   id_movimiento = idMovimiento.LastID()
-        #                    dias_del_mes = get_current_month_days()
-
-        # Mostrar los días
-        #                    for dia in dias_del_mes:
-        #                        movimiento_data = PlanMovimientoCreateModel(id_movimiento=id_movimiento,
-        #                        fecha=dia.strftime('%Y-%m-%d'))
-        #                        response = PostPlanMovimiento.crear_plan_movimiento(movimiento_data)
-        #                        print(response)
-
-# except Exception as e:
-# raise HTTPException(status_code=500, detail=f"Error al procesar el archivo Excel: {str(e)}")
+    except Exception as e:
+        print("Excepción:", str(e))
+        raise HTTPException(status_code=500, detail=f"Error al procesar el archivo Excel: {str(e)}")
