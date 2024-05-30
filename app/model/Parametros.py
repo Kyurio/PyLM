@@ -16,7 +16,6 @@ class Parametros:
                     placeholders = ', '.join(['%s'] * len(data))
                     values = list(data.values())
                     query = f"INSERT INTO {Parametros.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
-                    print(query)
                     db.execute(query, values)
                     return True
             except Exception as e:

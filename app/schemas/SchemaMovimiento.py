@@ -7,6 +7,7 @@ class MovimientoSelectModel(BaseModel):
     id_concepto: int
     id_secuencia: int
     valor: Optional[float]
+    fecha: Optional[datetime] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 

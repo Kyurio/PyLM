@@ -1,0 +1,86 @@
+import pandas as pd
+import io
+from fastapi import APIRouter, UploadFile, HTTPException, File
+from datetime import datetime, timedelta
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+# Importa los controllers y schemas necesarios
+from app.controller.Concepto import PostConcepto, GetLastID as idConcepto
+from app.controller.Secuencia import PostSecuencia, GetLastID as idSecuencia
+from app.schemas.SchemaConcepto import ConceptoCreateModel
+from app.schemas.SchemaSecuencia import SecuenciaCreateModel
+
+router = APIRouter()
+
+def clean_dataframe(df):
+    df = df.dropna(axis=1, how='all')
+    df = df.loc[:, ~(df.columns.str.contains('Unnamed') & df.isna().all())]
+    return df
+
+def extract_column_data(df, column_name):
+    return df[column_name].dropna().unique().tolist()
+
+def process_secuencia_item(item):
+    secuencia_data = SecuenciaCreateModel(descripcion=str(item))
+    try:
+        PostSecuencia.crear_secuencia(secuencia_data)
+        id_secuencia = idSecuencia.LastID()
+        if id_secuencia:
+            return id_secuencia
+    except HTTPException as e:
+        print("error: ", e)
+    return None
+
+def process_concepto_item(item):
+    print("este es el item recibido en el conetpo: ", item)
+    if item != 'FECHA':
+        concepto_data = ConceptoCreateModel(nombre=item)
+        try:
+            PostConcepto.crear_concepto(concepto_data)
+            id_concepto = idConcepto.LastID()
+            if id_concepto:
+                return item, id_concepto
+        except HTTPException as e:
+            print("error: ", e)
+    return item, None
+
+@router.post("/PostCargarPlanMinero/")
+async def cargar_datos_desde_excel(file: UploadFile = File(...)):
+    if not file.filename.endswith('.xlsx'):
+        raise HTTPException(status_code=400, detail="El archivo no es un archivo .xlsx válido.")
+
+    try:
+        # Leer el archivo completo y mantenerlo en memoria
+        contents = await file.read()
+        data = io.BytesIO(contents)
+        df = pd.read_excel(data, sheet_name='DETALLE FINAL DIARIO', engine='openpyxl')
+        df = clean_dataframe(df)
+
+        # Obtener los datos en memoria
+        secuencia = extract_column_data(df, df.columns[0])
+        conceptos = extract_column_data(df, df.columns[1])
+
+        # Procesar las secuencias en paralelo
+        secuencia_ids = []
+        with ThreadPoolExecutor() as executor:
+            future_to_item = {executor.submit(process_secuencia_item, item): item for item in secuencia}
+            for future in as_completed(future_to_item):
+                result = future.result()
+                if result:
+                    secuencia_ids.append(result)
+
+        # Procesar los conceptos en paralelo
+        concepto_ids = {}
+        with ThreadPoolExecutor() as executor:
+            future_to_concepto = {executor.submit(process_concepto_item, item): item for item in conceptos}
+            for future in as_completed(future_to_concepto):
+                item, result = future.result()
+                if result:
+                    concepto_ids[item] = result
+
+        print("IDs de secuencias almacenados: ", secuencia_ids)
+        print("IDs de conceptos almacenados: ", concepto_ids)
+
+    except Exception as e:
+        print("Excepción:", str(e))
+        raise HTTPException(status_code=500, detail=f"Error al procesar el archivo Excel: {str(e)}")

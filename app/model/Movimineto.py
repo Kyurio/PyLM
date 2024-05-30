@@ -14,7 +14,6 @@ class Movimientos:
                 placeholders = ', '.join(['%s'] * len(data))
                 values = list(data.values())
                 query = f"INSERT INTO {Movimientos.tabla} ({columns}, created_at, updated_at) VALUES ({placeholders}, NOW(), NOW())"
-                print("asi esta la query")
                 db.execute(query, values)
 
                 return True
@@ -72,8 +71,6 @@ class Movimientos:
     @staticmethod
     def get_all() -> List[MovimientoSelectModel]:
         try:
-
-            print("entro aqui")
 
             with Conexion() as db:
                 query = f"SELECT * FROM {Movimientos.tabla}"

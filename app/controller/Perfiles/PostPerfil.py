@@ -9,7 +9,7 @@ def crear_perfil(perfil_request: PerfilCreateModel):
     try:
 
         perfil_data = perfil_request.dict()
-        response = Perfil.create(**perfil_data)
+        response = Perfil.create(perfil_data)
 
         if response is not None:
             return {"status": "Success"}, 200

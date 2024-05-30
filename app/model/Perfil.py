@@ -21,7 +21,6 @@ class Perfil:
             print(f"Error al crear usuario: {e}")
             return False
 
-
     @staticmethod
     def get(id: int) -> PerfilSelectModel:
         with Conexion() as db:
@@ -60,7 +59,6 @@ class Perfil:
         except Exception as e:
             print(f"Error al actualizar usuario: {e}")
             return False
-
 
     @staticmethod
     def delete(quest_id: int) -> bool:
