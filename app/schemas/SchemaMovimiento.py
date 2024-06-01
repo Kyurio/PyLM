@@ -15,6 +15,7 @@ class MovimientoCreateModel(BaseModel):
     id_concepto: int
     id_secuencia: int
     valor: Optional[float]
+    fecha: Optional[datetime] = None
 
 class LastID(BaseModel):
     id: int

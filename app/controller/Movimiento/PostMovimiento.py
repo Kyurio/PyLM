@@ -8,7 +8,6 @@ router = APIRouter()
 def crear_movimiento(request: MovimientoCreateModel):
     try:
 
-
         data = request.dict()
         response = Movimientos.create(data)
         return response

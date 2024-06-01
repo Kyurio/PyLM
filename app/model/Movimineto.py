@@ -3,7 +3,7 @@ from app.schemas.SchemaMovimiento import MovimientoSelectModel
 from typing import List
 
 class Movimientos:
-    tabla = "Movimientos"
+    tabla = "movimientos"
 
     @staticmethod
     def create(data: dict) -> bool:
