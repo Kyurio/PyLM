@@ -33,12 +33,12 @@ class Perfil:
                         id=row[0],
                         id_perfil=row[1],
                         estado=row[2],
-                        created_at=row[3],
-                        updated_at=row[4],
-                        created=row[5],
-                        updated=row[6],
-                        deleted=row[7],
-                        leer=row[8]
+                        created=row[3],
+                        updated=row[4],
+                        deleted=row[5],
+                        leer=row[6],
+                        created_at=row[7],
+                        updated_at=row[8]
                     )
                 else:
                     return None
@@ -84,12 +84,12 @@ class Perfil:
                         id=row[0],
                         nombre_perfil=row[1],
                         estado=row[2],
-                        created_at=row[3],
-                        updated_at=row[4],
-                        created=row[5],
-                        updated=row[6],
-                        deleted=row[7],
-                        leer=row[8]
+                        created=row[3],
+                        updated=row[4],
+                        deleted=row[5],
+                        leer=row[6],
+                        created_at=row[7],
+                        updated_at=row[8]
                     ))
                 return rows
         except Exception as e:
