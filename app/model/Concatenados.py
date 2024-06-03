@@ -30,11 +30,9 @@ class Concatenados:
                     row = result[0]
                     return ConcatenadoSelectModel(
                         id=row[0],
-                        nombre_Concatenados=row[1],
-                        descripcion=row[2],
-                        estado=row[3],
-                        created_at=row[4],
-                        updated_at=row[5]
+                        descripcion=row[1],
+                        created_at=row[2],
+                        updated_at=row[3]
                     )
                 else:
                     return None
@@ -78,10 +76,9 @@ class Concatenados:
                 for row in result:
                     rows.append(ConcatenadoSelectModel(
                         id=row[0],
-                        id_plan_movimiento=[1],
-                        descripcion=row[2],
-                        created_at=row[3],
-                        updated_at=row[4]
+                        descripcion=row[1],
+                        created_at=row[2],
+                        updated_at=row[3]
 
 
                     ))
