@@ -4,8 +4,8 @@ from app.controller.SecuenciaDeCarga import CargaPlanMensual, GetPlanMensual
 router = APIRouter()
 
 @router.post("/CreatePlanMensual/")
-def crear_secuencia_route(file: UploadFile = File(...)):
-    return CargaPlanMensual(file)
+def crear_secuencia_route(fecha: str, file: UploadFile = File(...)):
+    return CargaPlanMensual(fecha, file)
 
 
 @router.get("/GetPlanMensual")
