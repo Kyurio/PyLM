@@ -10,7 +10,6 @@ class PerfilCreateModel(BaseModel):
     leer: bool
 
 
-
 class PerfilSelectModel(BaseModel):
     id: int
     nombre_perfil: str
@@ -18,8 +17,6 @@ class PerfilSelectModel(BaseModel):
     created: bool
     updated: bool
     deleted: bool
+    leer: bool
     created_at: datetime
     updated_at: datetime
-    leer: bool
-
-
