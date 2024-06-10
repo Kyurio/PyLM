@@ -3,10 +3,8 @@ from typing import Optional
 from datetime import datetime
 
 class SecuenciaDeCargaSelectModel(BaseModel):
-    id: int
-    concepto: int
-    secuencia: int
+
+    secuencia: str
+    concepto: str
     valor: Optional[float]
     fecha: Optional[datetime] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None

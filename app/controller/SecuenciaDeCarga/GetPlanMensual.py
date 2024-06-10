@@ -9,6 +9,7 @@ def listar_plan_mensual():
     try:
 
         request = PlanMensual.get_all()
+        print("request del controller: ", request)
         return request
 
     except Exception as e:

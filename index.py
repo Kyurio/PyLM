@@ -14,6 +14,7 @@ from router import (
     RouterHistorial,
     RouterSecuencia,
     RouterSecuenciaCarga,
+    RouterCargaForcast
 )
 
 app = FastAPI()
@@ -28,6 +29,10 @@ app.add_middleware(
 )
 # Routers para la secuencia de carga
 # secuencia de carga
+app.include_router(RouterCargaForcast.CargaForcast.router)
+
+
+
 app.include_router(RouterSecuenciaCarga.CargaPlanMensual.router)
 app.include_router(RouterSecuenciaCarga.GetPlanMensual.router)
 
