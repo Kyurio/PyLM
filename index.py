@@ -14,7 +14,11 @@ from router import (
     RouterHistorial,
     RouterSecuencia,
     RouterSecuenciaCarga,
-    RouterCargaForcast
+    RouterCargaForcast,
+    RouterInfoRiego,
+    RouterDiasRiego,
+    RouterLoma,
+    RouterTipoRiego,
 )
 
 app = FastAPI()
@@ -99,3 +103,31 @@ app.include_router(RouterHistorial.PostHistorial.router)
 app.include_router(RouterSecuencia.PostSecuencia.router)
 app.include_router(RouterSecuencia.GetSecuencia.router)
 app.include_router(RouterSecuencia.UpdateSecuencia.router)
+
+# Routers para loma
+# CRUD de loma
+app.include_router(RouterLoma.PostLoma.router)
+app.include_router(RouterLoma.GetLoma.router)
+app.include_router(RouterLoma.UpdateLoma.router)
+app.include_router(RouterLoma.DeleteLoma.router)
+
+# Routers para tipo de riego
+# CRUD de tipo de riego
+app.include_router(RouterTipoRiego.PostTipoRiego.router)
+app.include_router(RouterTipoRiego.GetTipoRiego.router)
+app.include_router(RouterTipoRiego.UpdateTipoRiego.router)
+app.include_router(RouterTipoRiego.DeleteTipoRiego.router)
+
+# Routers para dias de riego
+# CRUD de dias de riego
+app.include_router(RouterDiasRiego.PostDiasRiego.router)
+app.include_router(RouterDiasRiego.GetDiasRiego.router)
+app.include_router(RouterDiasRiego.UpdateDiasRiego.router)
+app.include_router(RouterDiasRiego.DeleteDiasRiego.router)
+
+# Routers para info de riego
+# CRUD de info de riego
+app.include_router(RouterInfoRiego.PostInfoRiego.router)
+app.include_router(RouterInfoRiego.GetInfoRiego.router)
+app.include_router(RouterInfoRiego.UpdateInfoRiego.router)
+app.include_router(RouterInfoRiego.DeleteInfoRiego.router)
