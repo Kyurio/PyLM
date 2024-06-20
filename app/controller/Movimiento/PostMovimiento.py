@@ -9,6 +9,7 @@ def crear_movimiento(request: MovimientoCreateModel):
     try:
 
         data = request.dict()
+        print("esta es la data del congtroller movimiento: ", data)
         response = Movimientos.create(data)
         return response
 

@@ -45,23 +45,29 @@ def ultimo_dia_del_mes(mes, anio):
 
     return fecha_formateada
 
+
 def clean_dataframe(df):
     df[df.columns[0]] = df[df.columns[0]].fillna(method='ffill')
     df = df.dropna(axis=1, how='all')
     df = df.loc[:, ~(df.columns.str.contains('Unnamed') & df.isna().all())]
     return df
 
+
 def extract_column_data(df, column_name):
     return df[column_name].dropna().unique().tolist()
 
+
 def process_secuencia_item(item):
-    secuencia_data = SecuenciaCreateModel(descripcion=str(item))
-    try:
-        PostSecuencia.crear_secuencia(secuencia_data)
-        return idSecuencia.LastID()
-    except HTTPException as e:
-        print("Error en process_secuencia_item:", e)
-    return None
+    if item != 'Plan semanal' and item != 'Lomas I + Lomas II':
+        secuencia_data = SecuenciaCreateModel(descripcion=str(item))
+        try:
+            PostSecuencia.crear_secuencia(secuencia_data)
+            return idSecuencia.LastID()
+        except HTTPException as e:
+            print("Error en process_secuencia_item:", e)
+            return None  # Mover el return None aquí asegura que se devuelva None en caso de excepción
+    return None  # Este return None se asegura de que la función siempre retorne algo
+
 
 def process_concepto_item(item):
     if item != 'FECHA':
@@ -73,6 +79,7 @@ def process_concepto_item(item):
             print("Error en process_concepto_item:", e)
     return item, None
 
+
 def process_movimiento_item(id_concepto, id_secuencia, value, date):
     movimiento_data = MovimientoCreateModel(id_concepto=id_concepto, id_secuencia=id_secuencia, valor=value, fecha=date)
     try:
@@ -81,9 +88,11 @@ def process_movimiento_item(id_concepto, id_secuencia, value, date):
     except HTTPException as e:
         print("Error en process_movimiento_item:", e)
 
+
 def obtener_mes_y_anio(fecha_str):
     fecha = datetime.strptime(fecha_str, '%Y-%m-%d')
     return fecha.month, fecha.year
+
 
 @router.post("/PostCargarForcast/")
 async def cargar_forcast(fecha: str, file: UploadFile = File(...)):
@@ -131,7 +140,8 @@ async def cargar_forcast(fecha: str, file: UploadFile = File(...)):
                         numeric_data = pd.to_numeric(row_data, errors='coerce')
                         for dia, value in zip(dias_del_mes(mes, anio), numeric_data):
                             if pd.notna(value):
-                                tasks.append(executor.submit(process_movimiento_item, id_concepto, id_secuencia, value, dia))
+                                tasks.append(
+                                    executor.submit(process_movimiento_item, id_concepto, id_secuencia, value, dia))
 
             for future in as_completed(tasks):
                 future.result()  # This ensures any exception in the tasks is raised
